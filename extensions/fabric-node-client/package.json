@@ -1,0 +1,28 @@
+{
+  "name": "fabric-rest",
+  "version": "0.0.1",
+  "description": "A simple RESTful interface to illustrate the use of Fabric node sdk",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --recursive",
+    "unit:test": "mocha test/*.unit.js",
+    "smoke:test": "mocha test/*.smoke.js",
+    "e2e:test": "mocha test/e2e.js",
+    "start": "node rest/index.js"
+  },
+  "keywords": [
+    "Fabric",
+    "Node",
+    "SDK"
+  ],
+  "repository":{
+    "type": "git",
+    "url": "https://github.com/workingwithblockchain/fabric-devkit/tree/master/reference/node-sdk/fabric-client"
+  },
+  "engines": {
+    "node": ">=8.9.4 <9.0",
+    "npm": ">=5.6.0 <6.0"
+  },
+  "author": "Paul Sitoh",
+  "license": "Apache-2.0"
+}

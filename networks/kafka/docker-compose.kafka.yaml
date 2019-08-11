@@ -1,0 +1,123 @@
+version: '3'
+
+services:
+
+services:
+  zookeeper1.network:
+    container_name: zookeeper1.network
+    image: hyperledger/fabric-zookeeper:${ZOOKEEPER_IMAGE_TAG}
+    environment:
+      - ZOO_MY_ID=1
+      - ZOO_SERVERS=server.1=zookeeper1.network:2888:3888 server.2=zookeeper2.network:2888:3888 server.3=zookeeper3.network:2888:3888
+    ports:
+      - 2181
+      - 2888
+      - 3888
+    networks:
+      - ${NETWORKS}
+
+  zookeeper2.network:
+    container_name: zookeeper2.network
+    image: hyperledger/fabric-zookeeper:${ZOOKEEPER_IMAGE_TAG}
+    environment:
+      - ZOO_MY_ID=2
+      - ZOO_SERVERS=server.1=zookeeper1.network:2888:3888 server.2=zookeeper2.network:2888:3888 server.3=zookeeper3.network:2888:3888
+    ports:
+      - 2181
+      - 2888
+      - 3888
+    networks:
+      - ${NETWORKS}
+
+  zookeeper3.network:
+    container_name: zookeeper3.network
+    image: hyperledger/fabric-zookeeper:${ZOOKEEPER_IMAGE_TAG}
+    environment:
+      - ZOO_MY_ID=3
+      - ZOO_SERVERS=server.1=zookeeper1.network:2888:3888 server.2=zookeeper2.network:2888:3888 server.3=zookeeper3.network:2888:3888
+    ports:
+      - 2181
+      - 2888
+      - 3888
+    networks:
+      - ${NETWORKS}
+
+  kafka1.network:
+    container_name: kafka1.network
+    image: hyperledger/fabric-kafka:${KAFKA_IMAGE_TAG}
+    working_dir: /opt/kafka
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper1.network:2181,zookeeper2.network:2181,zookeeper3.network:2181
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka1.network:9092
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+      - KAFKA_MESSAGE_MAX_BYTES=1048576 # 1 * 1024 * 1024 B
+      - KAFKA_REPLICA_FETCH_MAX_BYTES=1048576 # 1 * 1024 * 1024 B
+      - KAFKA_UNCLEAN_LEADER_ELECTION_ENABLE=false
+      - KAFKA_LOG_RETENTION_MS=-1
+      - KAFKA_MIN_INSYNC_REPLICAS=1
+      - KAFKA_DEFAULT_REPLICATION_FACTOR=1
+    ports:
+      - 9092
+    networks:
+      - ${NETWORKS}
+
+  kafka2.network:
+    container_name: kafka2.network
+    image: hyperledger/fabric-kafka:${KAFKA_IMAGE_TAG}
+    environment:
+      - KAFKA_BROKER_ID=2
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper1.network:2181,zookeeper2.network:2181,zookeeper3.network:2181
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka2.network:9092
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+      - KAFKA_MESSAGE_MAX_BYTES=1048576 # 1 * 1024 * 1024 B
+      - KAFKA_REPLICA_FETCH_MAX_BYTES=1048576 # 1 * 1024 * 1024 B
+      - KAFKA_UNCLEAN_LEADER_ELECTION_ENABLE=false
+      - KAFKA_LOG_RETENTION_MS=-1
+      - KAFKA_MIN_INSYNC_REPLICAS=1
+      - KAFKA_DEFAULT_REPLICATION_FACTOR=1
+    ports:
+      - 9092
+    networks:
+      - ${NETWORKS}
+
+  kafka3.network:
+    container_name: kafka3.network
+    image: hyperledger/fabric-kafka:${KAFKA_IMAGE_TAG}
+    environment:
+      - KAFKA_BROKER_ID=3
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper1.network:2181,zookeeper2.network:2181,zookeeper3.network:2181
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka3.network:9092
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+      - KAFKA_MESSAGE_MAX_BYTES=1048576 # 1 * 1024 * 1024 B
+      - KAFKA_REPLICA_FETCH_MAX_BYTES=1048576 # 1 * 1024 * 1024 B
+      - KAFKA_UNCLEAN_LEADER_ELECTION_ENABLE=false
+      - KAFKA_LOG_RETENTION_MS=-1
+      - KAFKA_MIN_INSYNC_REPLICAS=1
+      - KAFKA_DEFAULT_REPLICATION_FACTOR=1
+    ports:
+      - 9092
+    networks:
+      - ${NETWORKS}
+
+  kafka4.network:
+    container_name: kafka4.network
+    image: hyperledger/fabric-kafka:${KAFKA_IMAGE_TAG}
+    environment:
+      - KAFKA_BROKER_ID=4
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper1.network:2181,zookeeper2.network:2181,zookeeper3.network:2181
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka4.network:9092
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+      - KAFKA_MESSAGE_MAX_BYTES=1048576 # 1 * 1024 * 1024 B
+      - KAFKA_REPLICA_FETCH_MAX_BYTES=1048576 # 1 * 1024 * 1024 B
+      - KAFKA_UNCLEAN_LEADER_ELECTION_ENABLE=false
+      - KAFKA_LOG_RETENTION_MS=-1
+      - KAFKA_MIN_INSYNC_REPLICAS=1
+      - KAFKA_DEFAULT_REPLICATION_FACTOR=1
+    ports:
+      - 9092
+    networks:
+      - ${NETWORKS}
+
+networks:
+  fabric-network:

@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  ca.client.org1.dev:
+    container_name: ca.client.org1.dev
+    image: workingwithblockchain/ca-client-toolkit
+    tty: true
+    environment:
+      - FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-client-home
+    working_dir: /opt/wd
+    volumes:
+      - ../../extensions/fabric-ca-client/scripts:/opt/wd/scripts
+      - ../../extensions/fabric-ca-client/msp:/etc/hyperledger/fabric-ca-client-home/msp
+      - ../../extensions/fabric-ca-client/fabric-ca-client-config.yaml:/etc/hyperledger/fabric-ca-client-home/fabric-ca-client-config.yaml
+      - ./fabric-ca-home:/opt/wd/fabric-ca-home
+      - ./crypto-config/peerOrganizations/org1.dev/ca/ca.org1.dev-cert.pem:/opt/wd/network-cert.pem
+    networks:
+      - ${NETWORKS}
+
+networks:
+  fabric-network:

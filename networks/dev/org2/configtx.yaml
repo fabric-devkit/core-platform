@@ -1,0 +1,8 @@
+Organizations:
+  - &Org2
+    Name: Org2MSP
+    ID: Org2MSP
+    MSPDir: ./crypto-config/peerOrganizations/org2.dev/msp
+    AnchorPeers:
+      - Host: peer0.org1.dev
+        Port: 7051
