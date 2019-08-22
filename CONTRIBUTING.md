@@ -2,16 +2,20 @@
 
 The maintainer(s) of this project welcomes feedback and contribution from anyone. 
 
-To maintain some order in this project development lifecycle, the principal maintainer shall, currently, retain sole descretion in deciding any features to be incorporated or removed from this repository. 
+However in order to contribute please ad here to the rules as described here.
 
-It is worth emphasising that the long term goal is to have this project supported by multiple maintainers to ensure that there is no single-point-of-failure. A consensus mechanism that can enable this project involve multiple maintainers is currently being established.
+## Pre-requisite
+
+All contribution commits must be GPG signed and signed off i.e. `git commit -S -s`.
+
+To set up for GPG signature, please refer to instuction [here[](https://help.github.com/en/articles/about-commit-signature-verification#gpg-commit-signature-verification).
 
 ## Development life cycle
 
 The DevKit's development lifecycle is based on the trunk (master) and release methodology see Figure 1.
 
 <figure>
-    <img src="./guides/images/lifecycle.jpg" height="350" width="750"/>
+    <img src="./images/dev-lifecycle.png" height="750" width="600"/>
     <figcaption>Figure 1: Trunk and release</figcaption>
 </figure>
 
