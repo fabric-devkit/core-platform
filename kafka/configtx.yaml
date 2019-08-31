@@ -27,7 +27,8 @@ Organizations:
   - &Org1
     Name: Org1MSP
     ID: Org1MSP
-    MSPDir: crypto-config/peerOrganizations/org1.kafka.network/msp
+    MSPDir: ./crypto-config/peerOrganizations/org1.kafka.network/msp
+    AdminPrincipal: Role.ADMIN
     Policies:
       Readers:
           Type: Signature
@@ -45,7 +46,8 @@ Organizations:
   - &Org2
     Name: Org2MSP
     ID: Org2MSP
-    MSPDir: crypto-config/peerOrganizations/org2.kafka.network/msp
+    MSPDir: ./crypto-config/peerOrganizations/org2.kafka.network/msp
+    AdminPrincipal: Role.ADMIN
     Policies:
       Readers:
           Type: Signature
@@ -57,7 +59,7 @@ Organizations:
           Type: Signature
           Rule: "OR('Org2MSP.admin')"
     AnchorPeers:
-      - Host: peer0.org2.solo.network
+      - Host: peer0.org2.kafka.network
         Port: 7051
 
 ################################################################################

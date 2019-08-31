@@ -7,14 +7,12 @@ OrdererOrgs:
 PeerOrgs:
   - Name: Org1
     Domain: org1.kafka.network
-    EnableNodeOUs: true
     Template:
       Count: 1
     Users:
       Count: 1
   - Name: Org2
     Domain: org2.kafka.network
-    EnableNodeOUs: true
     Template:
       Count: 1
     Users:
