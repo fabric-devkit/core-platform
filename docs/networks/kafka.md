@@ -1,7 +1,8 @@
 ---
 title: Kafka Network
+parent: Networks
 has_children: true
-nav_order: 2
+nav_order: 3
 ---
 
 # Minmum Kafka Network
