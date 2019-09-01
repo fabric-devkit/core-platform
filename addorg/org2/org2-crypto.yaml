@@ -7,7 +7,6 @@ PeerOrgs:
   # ---------------------------------------------------------------------------
   - Name: Org2
     Domain: org2.dev
-    EnableNodeOUs: true
     Template:
       Count: 1
     Users:

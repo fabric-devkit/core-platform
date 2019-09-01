@@ -37,10 +37,6 @@ function clearCryptoChannelArtefacts(){
     rm -rf ./crypto-config
 }
 
-function clearCAArtefacts(){
-    rm -rf ./fabric-ca-home
-}
-
 function startNetworkContainers(){
     docker-compose -f ./docker-compose.fabric.yaml up -d orderer.dev
     docker-compose -f ./docker-compose.fabric.yaml up -d ca.org1.dev
@@ -81,169 +77,7 @@ function network(){
     esac
 }
 
-# CA Client
-ca_client_image="workingwithblockchain/ca-client-toolkit"
-ca_client_container="ca.client.org1.dev"
-ca_client_subcommand_message="Usage: $0 ca-client image | cli | start | clean"
-
-function buildImageCAClient(){
-    pushd ../../extensions/fabric-ca-client
-        docker build -t $ca_client_image .
-    popd
-}
-
-function startCAClient(){
-    docker-compose -f ./docker-compose.fabric.yaml -f ./docker-compose.ca-client.yaml up -d $ca_client_container
-}
-
-function cliCAClient(){
-    docker exec -it $ca_client_container /bin/bash
-}
-
-function existsCAClientImage(){
-    result=$(docker images $ca_client_image --format "{{.ID}}")
-    if [ -z $result ]; then
-        return 1
-    else
-        return 0
-    fi
-}
-
-function clearCAClientContainer(){
-    docker rm -f $ca_client_container
-}
-
-function clearCAClientImage(){
-    docker rmi -f $ca_client_image
-}
-
-function caClient(){
-    local subcommand="$1"
-    case $subcommand in
-        "image")
-            clearCAClientContainer
-            clearCAClientImage
-            buildImageCAClient
-            ;;
-        "start")
-            clearCAClientContainer
-            existsCAClientImage
-            if [ "$?" -ne 0 ]; then
-                buildImageCAClient
-            fi
-            startCAClient
-            ;;
-        "cli")
-            cliCAClient
-            ;;
-        "clean")
-            clearCAClientContainer
-            clearCAClientImage
-            ;;
-        *)
-            echo $ca_client_subcommand_message
-            ;;
-    esac
-} 
-
-# Fabric Client
-fabric_client_message="Usage: $0 fabric-client image | start | e2e | clean"
-fabric_client_image="workingwithblockchain/fabric-client"
-fabric_client_container="fabric-client.org1.dev"
-
-#######################################################
-# Modify these functions to suit your implementation. #
-#######################################################
-function buildFabricClientImage(){
-    pushd ../../extensions/fabric-node-client # modify this to the location of your client implementation
-        docker build -t $fabric_client_image .  
-    popd
-}
-
-# This unit test is defaulted to node based client. Modify to suit your implementation language. 
-function unitTestFabricClient(){
-    echo "Fabric client unit testing"
-    docker-compose -f ./docker-compose.fabric.yaml -f ./docker-compose.fabric-client.yaml run --rm $fabric_client_container /bin/bash -c 'npm run unit:test'
-    return $?
-}
-
-# This smoke test is defaulted to node based client. Modify to suit your implementation language. 
-function smokeTestFabricClient(){
-    echo "Fabric client smoke testing"
-    docker-compose -f ./docker-compose.fabric.yaml -f ./docker-compose.fabric-client.yaml run --rm $fabric_client_container /bin/bash -c 'npm run smoke:test'
-    return $?
-}
-
-function e2eTestFabricClient(){
-    echo "Fabric client e2e testing"
-    docker-compose -f ./docker-compose.fabric.yaml -f ./docker-compose.fabric-client.yaml run --rm $fabric_client_container /bin/bash -c 'npm run e2e:test'
-    return $?
-}
-########################################################
-
-function startFabricClient(){
-    docker-compose -f ./docker-compose.fabric.yaml -f ./docker-compose.fabric-client.yaml up -d $fabric_client_container
-}
-
-function existsFabricClientImage(){
-    local result=$(docker images $fabric_client_image --format "{{.ID}}")
-    if [ -z $result ]; then
-        return 1
-    else
-        return 0
-    fi
-}
-
-function cleanFabricClientContainer(){
-    docker rm -f $fabric_client_container
-    rm -rf ../../extensions/fabric-node-client/wallet
-}
-
-function cleanFabricClientImage(){
-    docker rmi -f $fabric_client_image
-}
-
-function fabricClient(){
-    local subcommand="$1"
-    case $subcommand in
-        "image")
-            cleanFabricClientContainer
-            cleanFabricClientImage
-            buildFabricClientImage
-            ;;
-        "start")
-            cleanFabricClientContainer
-            existsFabricClientImage
-            if [ "$?" -ne 0 ]; then
-                buildFabricClientImage
-            fi
-            unitTestFabricClient
-            if [ "$?" -ne 0 ]; then
-                echo "Unit test failed - unable to start Fabric Client"
-                exit 1
-            fi
-            smokeTestFabricClient
-            if [ "$?" -ne 0 ]; then
-                echo "Smoke failed - unable to start Fabric Client"
-                exit 1
-            fi
-            startFabricClient
-            ;;
-        "e2e")
-            e2eTestFabricClient
-            ;;    
-        "clean")
-            cleanFabricClientContainer
-            cleanFabricClientImage
-            ;;
-        *)
-            echo $fabric_client_message
-            ;;
-    esac
-}
-
 # Org2
-add_org2_message="Usage: $0 add-org2 artefacts | join | validate "
 org1_cli="cli.org1.dev"
 org2_cli="cli.org2.dev"
 
@@ -307,14 +141,12 @@ function addOrg2(){
             validateOrg2
             ;;
         *)
-            echo $add_org2_message
+            echo "Usage: $0 add-org2 artefacts | join | validate "
             ;;
     esac
 }
 
 # Fabric Ops
-fabric_usage_message="Usage: $0 network <subcommand> | ca-client <subcommand> | fabric-client <subcommand> | add-org2 <subcommand> | status | clean"
-
 function fabricOpsStatus(){
     docker ps -a --filter network=$network_name
 }
@@ -323,8 +155,6 @@ function fabricOpsClean(){
     clearContainers
     clearChaincodeImages
     clearCryptoChannelArtefacts
-    clearCAArtefacts
-    caClient clean
     fabricClient clean
     docker rmi -f $(docker images -f "dangling=true" -q)
 }
@@ -332,12 +162,6 @@ function fabricOpsClean(){
 case $COMMAND in
     "network")
         network $SUBCOMMAND
-        ;;
-    "ca-client")
-        caClient $SUBCOMMAND
-        ;;
-    "fabric-client")
-        fabricClient $SUBCOMMAND
         ;;
     "status")
         fabricOpsStatus
@@ -349,6 +173,6 @@ case $COMMAND in
         addOrg2 $SUBCOMMAND
         ;;
     *)
-        echo $fabric_usage_message
+        echo "Usage: $0 network <subcommand> | add-org2 <subcommand> | status | clean"
         ;;
 esac

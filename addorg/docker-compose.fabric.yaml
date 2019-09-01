@@ -50,7 +50,6 @@ services:
     volumes:
       - ./crypto-config/peerOrganizations/org1.dev/ca/ca.org1.dev-cert.pem:/etc/hyperledger/fabric-ca-server/crypto-config/ca/network-cert.pem
       - ./crypto-config/peerOrganizations/org1.dev/ca/secret.key:/etc/hyperledger/fabric-ca-server/crypto-config/ca/secret.key
-      - ./fabric-ca-home:/etc/hyperledger/fabric-ca-server/home
     ports:
       - 7054:7054
     networks:
