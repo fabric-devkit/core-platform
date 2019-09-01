@@ -1,4 +1,12 @@
-# Kafka Network
+---
+title: Kafka Network
+has_children: true
+nav_order: 2
+---
+
+# Minmum Kafka Network
+
+This is a sub-project of [`Fabric Devkit` core platform](https://github.com/fabric-devkit/core-platform) intended to illustrate a minimum number of components you need to get a working Kafka based Fabric network. You can also use this as a basis for a development network or to build on for experimentation.
 
 Please refer to Fabric's [official documentation on Kafka based Fabric network](https://hyperledger-fabric.readthedocs.io/en/release-1.4/kafka.html)
 
@@ -9,19 +17,7 @@ This core components of a Kafka based Fabric network is illustrated in Figure 1.
     <figcaption>Figure 1: Kafka Fabric network</figcaption>
 </figure>
 
-# How to use the kafka network?
-
-This is primarily intended to illustrate a minimum working Kafka based Fabric network. You can also use this as a basis to extend the network to more than two organisations network.
-
-To see it in action:
-
-STEP 1: Navigate to the [orchestrator](../networks/kafka).
-
-STEP 2: Start the kafka cluster please refer to [fabric operations](#fabricOps).
-
-STEP 3: Start the [Fabric network](#fabricOps).
-
-# Content
+## What to expect
 
 The kafka network orchestration is located [here](../networks/kafka)
 
@@ -36,11 +32,18 @@ The kafka network orchestration is located [here](../networks/kafka)
 | `fabricOps.sh` | Please refer to details [here](#fabricOps) |
 | `generate-artefacts.sh` | Script to execute configtxgen and cryptogen tool |
 
+## How to run the demonstrator AS-IS?
+
+STEP 1: Navigate to the [orchestrator](../kafka).
+
+STEP 2: Start the kafka cluster please refer to [fabric operations](#fabricOps).
+
+STEP 3: Start the [Fabric network](#fabricOps).
+
 ## <a name="fabricOps">fabricOps.sh</a>
 
 The principal network orchestration script to help you spin-up, tear down and add supporting components to the network. It is a Bash script based command line application.
-
-### Commands
+This is how you use the script
 
 `./fabricOps.sh kafka <subcommand> | network <subcommand> | status | clean`
 
@@ -49,7 +52,6 @@ The principal network orchestration script to help you spin-up, tear down and ad
 Use this command for Kafka oriented operations.
 
 `./fabricOps.sh kafka start | clean`
-
 
 #### `network` command
 

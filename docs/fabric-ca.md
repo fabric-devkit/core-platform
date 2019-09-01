@@ -1,3 +1,9 @@
+---
+title: Fabric CA
+has_children: true
+nav_order: 3
+---
+
 # Fabric Certificate Authority (CA) client 
 
 Please refer to [official documentation (version 1.4)](https://hyperledger-fabric-ca.readthedocs.io/en/release-1.4/) for a detailed explanation of the operations of Fabric CA and its relationship to other aspects of the Fabric artefacts.

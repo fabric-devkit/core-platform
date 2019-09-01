@@ -1,3 +1,9 @@
+---
+title: Crypto Configuration
+has_children: true
+nav_order: 2
+---
+
 # Cryptogen and Configtxgen extension
 
 `cryptogen` and `configtxgen` tools for generating cryptographic and channel materials necessary for the operations of the Fabric network. For more details please refer to Fabric's official documentations:

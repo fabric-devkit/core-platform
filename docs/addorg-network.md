@@ -1,4 +1,12 @@
-# Dev Network
+---
+title: Add Organisation
+has_children: true
+nav_order: 4
+---
+
+# Add an organisation to an existing channel
+
+**THIS IS ONLY A DRAFT SUBJECT TO CHNAGE**
 
 Please refer to Fabric's [official documentation](https://hyperledger-fabric.readthedocs.io/en/release-1.4/blockchain.html) to learn about the Fabric network.
 
