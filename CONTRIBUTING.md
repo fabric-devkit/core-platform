@@ -15,7 +15,7 @@ To set up for GPG signature, please refer to instuction [here[](https://help.git
 The DevKit's development lifecycle is based on the trunk (master) and release methodology see Figure 1.
 
 <figure>
-    <img src="./images/dev-lifecycle.png" height="750" width="600"/>
+    <img src="./dev-lifecycle.png" height="750" width="600"/>
     <figcaption>Figure 1: Trunk and release</figcaption>
 </figure>
 
