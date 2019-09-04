@@ -71,6 +71,24 @@ function initializeNetwork(){
     docker exec cli.org2.priv /bin/bash -c '${PWD}/scripts/installCC.sh'
 }
 
+function addSampleTransaction(){
+    docker exec cli.org1.priv /bin/bash -c '${PWD}/scripts/addTransaction.sh productA 1234 70 60'
+}
+
+function readTransaction(){
+    echo '############### Querying on org1 ###############'
+    docker exec cli.org1.priv /bin/bash -c '${PWD}/scripts/readTransaction.sh productA'
+    echo '############### Querying on org2 ###############'
+    docker exec cli.org2.priv /bin/bash -c '${PWD}/scripts/readTransaction.sh productA'
+}
+
+function readTransactionPrivate(){
+    echo '############### Querying on org1 ###############'
+    docker exec cli.org1.priv /bin/bash -c '${PWD}/scripts/readTransactionPrivate.sh productA'
+    echo '############### Querying on org2 ###############'
+    docker exec cli.org2.priv /bin/bash -c '${PWD}/scripts/readTransactionPrivate.sh productA'
+}
+
 function upgradeNetwork(){
     docker exec cli.org1.priv /bin/bash -c '${PWD}/scripts/upgradeCC.sh'
 }
@@ -91,6 +109,15 @@ function network(){
             ;;
         "upgrade")
             upgradeNetwork
+            ;;
+        "addSampleTransaction")
+            addSampleTransaction
+            ;;
+        "readTransaction")
+            readTransaction
+            ;;
+        "readTransactionPrivate")
+            readTransactionPrivate
             ;;
         *)
             echo $network_subcommand_message

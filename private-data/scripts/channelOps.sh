@@ -1,5 +1,4 @@
 #!/bin/bash
-ORG="$1"
 
 . ./scripts/common.sh
 
