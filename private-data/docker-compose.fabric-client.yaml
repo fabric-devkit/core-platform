@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+
+  fabric-client.org1.dev:
+    container_name: fabric-client.org1.dev
+    image: workingwithblockchain/fabric-client
+    working_dir: /opt
+    volumes:
+      - ./network-config.yaml:/opt/network-config.yaml
+      - ./org1.yaml:/opt/org1.yaml
+      - ./services.json:/opt/services.json
+      - ./crypto-config:/opt/crypto-config
+      - ./channel-artefacts:/opt/channel-artefacts
+      - ../../extensions/fabric-node-client/wallet:/tmp
+    ports:
+      - 9000:8080
+    networks:
+      - ${NETWORKS}
+
+networks:
+  fabric-network:
