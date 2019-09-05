@@ -5,7 +5,7 @@ COMMAND="$1"
 SUBCOMMAND="$2"
 
 # Network
-network_subcommand_message="Usage: $0 network artefacts | start | init | upgrade"
+network_subcommand_message="Usage: $0 network artefacts | start | init | addSampleTransaction | readTransaction | readTransactionPrivate"
 network_name="priv_fabric-network"
 
 function createCryptoChannelArtefacts(){
@@ -89,10 +89,6 @@ function readTransactionPrivate(){
     docker exec cli.org2.priv /bin/bash -c '${PWD}/scripts/readTransactionPrivate.sh productA'
 }
 
-function upgradeNetwork(){
-    docker exec cli.org1.priv /bin/bash -c '${PWD}/scripts/upgradeCC.sh'
-}
-
 function network(){
     local subcommand="$1"
     case $subcommand in
@@ -106,9 +102,6 @@ function network(){
             ;;
         "init")
             initializeNetwork
-            ;;
-        "upgrade")
-            upgradeNetwork
             ;;
         "addSampleTransaction")
             addSampleTransaction

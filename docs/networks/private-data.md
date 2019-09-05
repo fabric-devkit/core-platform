@@ -78,49 +78,37 @@ As with our other examples, a script has been provided to create and intialise t
 ./fabricOps.sh network start
 ./fabricOps.sh network init
 ```
-Assuming that these commands successfully completed, open a shell on the `cli.org1.priv` with the command `docker exec -it cli.org1.priv bash`.
+Next, we'll create a sample transaction on the network from org1 with the command:
+```
+./fabricOps.sh network createSampleTransaction
+```
+Once this has completed, query the transaction with the command:
+```
+./fabricOps.sh network readTransaction
+```
+This queries the public data in the sample transaction that we just created from both org1 and org2. As we made the public data available to both orgs, we should see the same results on both:
+```
+############### Querying on org1 ###############
+2019-09-05 07:06:11.479 UTC [chaincodeCmd] InitCmdFactory -> INFO 001 Retrieved channel (mychannel) orderer endpoint: orderer.priv:7050
+2019-09-05 07:06:11.490 UTC [chaincodeCmd] chaincodeInvokeOrQuery -> INFO 002 Chaincode invoke successful. result: status:200 payload:"{\"docType\":\"transaction\",\"productCode\":\"productA\",\"productDescription\":\"1234\",\"productQuantity\":70}" 
+############### Querying on org2 ###############
+2019-09-05 07:06:11.879 UTC [chaincodeCmd] InitCmdFactory -> INFO 001 Retrieved channel (mychannel) orderer endpoint: orderer.priv:7050
+2019-09-05 07:06:12.759 UTC [chaincodeCmd] chaincodeInvokeOrQuery -> INFO 002 Chaincode invoke successful. result: status:200 payload:"{\"docType\":\"transaction\",\"productCode\":\"productA\",\"productDescription\":\"1234\",\"productQuantity\":70}" 
+```
 
-Unlike with standard chaincode invoke commands, we need to pass arguments to the private data chaincode using a transient object. We do this by first setting up an object to be inserted into the chaincode:
-```export TRANSACTION=$(echo -n "{\"productCode\":\"productA\",\"productId\":\"1234\",\"productQuantity\":70,\"productPrice\":100}" | base64 | tr -d \\n) ```
-This creates a json object containing an example transaction to be created in the chaincode, of which the productPrice will be stored in private data, the rest in public data. The information in public data will be available to org1 and org2, the private data will only be available to org1. Having created our data object, we insert it into our chaincode with the command
-```peer chaincode invoke -C mychannel -n private-data -c '{"Args":["addTransaction"]}' --transient "{\"transaction\":\"$TRANSACTION\"} " --tls --cafile $ORDERER_CA```
-
-This command should succeed, with output looking like:
-
-```2019-09-01 13:30:24.331 UTC [chaincodeCmd] InitCmdFactory -> INFO 001 Retrieved channel (mychannel) orderer endpoint: orderer.priv:7050
-2019-09-01 13:30:24.356 UTC [chaincodeCmd] chaincodeInvokeOrQuery -> INFO 002 Chaincode invoke successful. result: status:200 ```
-
-Now we can query the object that we just created. This is done in two parts, a query of the public data and the private data. On org1 we expect to have access to both parts, from org2 we should have access to the public data only.
-First, remaining on cli.org1.priv, execute the command to read the public data:
-
-```root@de4b002261ec:/opt/gopath/src/github.com/hyperledger/fabric# peer chaincode invoke -C mychannel -n private-data -c '{"Args":["readTransaction", "productA"]}' --tls --cafile $ORDERER_CA``
-
-This suld return the content of the public data for the object we just created:
-```2019-09-01 13:31:32.820 UTC [chaincodeCmd] InitCmdFactory -> INFO 001 Retrieved channel (mychannel) orderer endpoint: orderer.priv:7050
-2019-09-01 13:31:32.829 UTC [chaincodeCmd] chaincodeInvokeOrQuery -> INFO 002 Chaincode invoke successful. result: status:200 payload:"{\"docType\":\"transaction\",\"productCode\":\"productA\",\"productDescription\":\"1234\",\"productQuantity\":70}" ```
-Observe that the result contains the public data fields for the object only.
-
-Next, we can query the private data for the same object, also from org1:
-```root@de4b002261ec:/opt/gopath/src/github.com/hyperledger/fabric# peer chaincode invoke -C mychannel -n private-data -c '{"Args":["readTransactionPrivateDetails", "productA"]}' --tls --cafile $ORDERER_CA```
-
-This should successfully return the private `price` field for the object:
-```2019-09-01 13:31:53.634 UTC [chaincodeCmd] InitCmdFactory -> INFO 001 Retrieved channel (mychannel) orderer endpoint: orderer.priv:7050
-2019-09-01 13:31:53.645 UTC [chaincodeCmd] chaincodeInvokeOrQuery -> INFO 002 Chaincode invoke successful. result: status:200 payload:"{\"docType\":\"transactionPrivate\",\"productCode\":\"productA\",\"productPrice\":100}"```
-
-Next, we test the behaviour of querying the object from org2. Switch the shell to `cli.org2.priv`:
-```exit
-docker exec -it cli.org2.priv bash```
-First, check that we can read the public data. This should give the same result as when run from org1:
-```root@34f02893274e:/opt/gopath/src/github.com/hyperledger/fabric# peer chaincode invoke -C mychannel -n private-data -c '{"Args":["readTransaction", "productA"]}' --tls --cafile $ORDERER_CA
-2019-09-01 13:47:01.680 UTC [chaincodeCmd] InitCmdFactory -> INFO 001 Retrieved channel (mychannel) orderer endpoint: orderer.priv:7050
-2019-09-01 13:47:19.058 UTC [chaincodeCmd] chaincodeInvokeOrQuery -> INFO 002 Chaincode invoke successful. result: status:200 payload:"{\"docType\":\"transaction\",\"productCode\":\"productA\",\"productDescription\":\"1234\",\"productQuantity\":70}" ```
-
-Finally, attempt to query the private data. This should fail, as our collections config specifies that the private data is only available to org1:
-```root@34f02893274e:/opt/gopath/src/github.com/hyperledger/fabric# peer chaincode invoke -C mychannel -n private-data -c '{"Args":["readTransactionPrivateDetails", "productA"]}' --tls --cafile $ORDERER_CA
-2019-09-01 13:47:28.933 UTC [chaincodeCmd] InitCmdFactory -> INFO 001 Retrieved channel (mychannel) orderer endpoint: orderer.priv:7050
-Error: endorsement failure during invoke. response: status:500 message:"{\"Error\":\"Failed to get private details for productA: GET_STATE failed: transaction ID: e4a17889223493c9ea259fd127cd0f108278046e64e1e7bf54f8e670fd7fbe65: tx creator does not have read access permission on privatedata in chaincodeName:private-data collectionName: collectionTransactionPrivate\"}" ```
-
-
+Now we query the private data on both organisations with the command:
+```
+./fabricOps.sh network readTransactionPrivate
+```
+As we defined our collections config to make private data available to org1 only, this command should return the private data when run on org1, but fail on org2:
+```
+############### Querying on org1 ###############
+2019-09-05 07:08:13.176 UTC [chaincodeCmd] InitCmdFactory -> INFO 001 Retrieved channel (mychannel) orderer endpoint: orderer.priv:7050
+2019-09-05 07:08:13.188 UTC [chaincodeCmd] chaincodeInvokeOrQuery -> INFO 002 Chaincode invoke successful. result: status:200 payload:"{\"docType\":\"transactionPrivate\",\"productCode\":\"productA\",\"productPrice\":60}" 
+############### Querying on org2 ###############
+2019-09-05 07:08:13.562 UTC [chaincodeCmd] InitCmdFactory -> INFO 001 Retrieved channel (mychannel) orderer endpoint: orderer.priv:7050
+Error: endorsement failure during invoke. response: status:500 message:"{\"Error\":\"Failed to get private details for productA: GET_STATE failed: transaction ID: b85e1b2d2d7520970941861e09ade164f64e89e191ba5064872d08131706d9bf: tx creator does not have read access permission on privatedata in chaincodeName:private-data collectionName: collectionTransactionPrivate\"}" 
+```
 
 ## Copyright Notice
 Copyright (c) 2019. The Fabric-DevKit Authors. All rights reserved.
