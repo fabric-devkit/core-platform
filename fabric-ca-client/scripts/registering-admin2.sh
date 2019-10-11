@@ -9,8 +9,12 @@ echo
 echo "  username: admin"
 echo "  password: adminpw"
 echo
-fabric-ca-client enroll -u https://admin:adminpw@ca.org1.dev:7054
-echo "Client enrolled!"
+fabric-ca-client enroll -u https://admin:adminpw@tlsca.org1.dev:7054
+if [ $? != 0 ]; then
+    exit 1
+else
+    echo "Enrolled"
+fi
 echo
 
 echo
@@ -30,4 +34,4 @@ echo
 echo "Expected user in database: "
 echo " admin"
 echo " admin2"
-sqlite3 ./fabric-ca-home/fabric-ca-server.db "select * from users"
+sqlite3 ./fabric-ca-server/fabric-ca-server.db "select * from users"

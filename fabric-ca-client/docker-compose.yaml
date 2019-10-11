@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+
+  tlsca.org1.dev:
+    image: hyperledger/fabric-ca:latest
+    container_name: tlsca.org1.dev
+    ports:
+      - 7054:7054
+    environment:
+      - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server/home
+      - FABRIC_CA_SERVER_CA_NAME=ca.org1.dev
+      - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server/crypto-config/ca/network-cert.pem
+      - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server/crypto-config/ca/secret.key
+      - FABRIC_CA_SERVER_TLS_ENABLED=true
+      - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server/crypto-config/tlsca/network-cert.pem
+      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server/crypto-config/tlsca/secret.key
+    volumes:
+      - ./crypto/ca/ca.org1.dev-cert.pem:/etc/hyperledger/fabric-ca-server/crypto-config/ca/network-cert.pem
+      - ./crypto/ca/secret.key:/etc/hyperledger/fabric-ca-server/crypto-config/ca/secret.key
+      - ./crypto/tlsca/tlsca.org1.dev-cert.pem:/etc/hyperledger/fabric-ca-server/crypto-config/tlsca/network-cert.pem
+      - ./crypto/tlsca/secret.key:/etc/hyperledger/fabric-ca-server/crypto-config/tlsca/secret.key
+      - ./fabric-ca-server:/etc/hyperledger/fabric-ca-server/home
+    networks:
+      - fabric-devkit-ca
+
+  ca-client.test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: fabric-devkit/ca-client.test
+    container_name: fabric-ca-client
+    tty: true
+    environment: 
+      - FABRIC_CA_CLIENT_HOME=/opt/fabric-ca-client-home
+    working_dir: /opt
+    volumes:
+      - ./scripts:/opt/scripts
+      - ./crypto/tlsca/tlsca.org1.dev-cert.pem:/opt/certs/network-cert.pem
+      - ./crypto/tlsca/secret.key:/opt/certs/secret.key
+      - ./fabric-ca-server:/opt/fabric-ca-server
+      - ./fabric-ca-client-config.yaml:/opt/fabric-ca-client-home/fabric-ca-client-config.yaml
+    networks:
+      - fabric-devkit-ca
+      
+networks:
+  fabric-devkit-ca:
+    
