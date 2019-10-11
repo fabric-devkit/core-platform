@@ -1,3 +1,3 @@
 #!/bin/bash
 
-sqlite3 ./fabric-ca-home/fabric-ca-server.db "select * from users"
+sqlite3 ./fabric-ca-server/fabric-ca-server.db "select * from users"

@@ -40,7 +40,7 @@
 #############################################################################
 
 # URL of the Fabric-ca-server (default: http://localhost:7054)
-url: https://ca.org1.dev:7054
+url: https://tlsca.org1.dev:7054
 
 # Membership Service Provider (MSP) directory
 # This is useful when the client is used to enroll a peer or orderer, so
@@ -59,12 +59,12 @@ mspdir: msp
 #############################################################################
 tls:
   # TLS section for secure socket connection
-  #enabled: true
+  enabled: true
   certfiles:
-    - /opt/wd/network-cert.pem
+    - /opt/certs/network-cert.pem
   client:
-    certfile:
-    keyfile:
+    certfile: /opt/certs/network-cert.pem
+    keyfile: /opt/certs/secret.key
 
 #############################################################################
 #  Certificate Signing Request section for generating the CSR for an
