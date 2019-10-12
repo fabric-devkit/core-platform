@@ -4,12 +4,19 @@ ARGS_NUMBER="$#"
 COMMAND="$1"
 SUBCOMMAND="$2"
 
+export COMPOSE_PROJECT_NAME=addorg
+export CA_IMAGE_TAG=1.4.0
+export PEER_IMAGE_TAG=1.4.0
+export ORDERER_IMAGE_TAG=1.4.0
+export FABRIC_TOOL_IMAGE_TAG=1.4
+export CHAINCODE_PATH=../chaincodes/
+
 # Network
 network_subcommand_message="Usage: $0 network artefacts | start | init | upgrade"
-network_name="dev_fabric-network"
+network_name="${COMPOSE_PROJECT_NAME}_fabric-network"
 
 function createCryptoChannelArtefacts(){
-    docker run --rm -e "GOPATH=/opt/gopath" -e "FABRIC_CFG_PATH=/opt/gopath/src/github.com/hyperledger/fabric" -w="/opt/gopath/src/github.com/hyperledger/fabric" --volume=${PWD}:/opt/gopath/src/github.com/hyperledger/fabric hyperledger/fabric-tools /bin/bash -c '${PWD}/generate-artefacts.sh'
+    docker run --rm -e "GOPATH=/opt/gopath" -e "FABRIC_CFG_PATH=/opt/gopath/src/github.com/hyperledger/fabric" -w="/opt/gopath/src/github.com/hyperledger/fabric" --volume=${PWD}:/opt/gopath/src/github.com/hyperledger/fabric hyperledger/fabric-tools:${FABRIC_TOOL_IMAGE_TAG} /bin/bash -c '${PWD}/generate-artefacts.sh'
 
     pushd ./crypto-config/peerOrganizations/org1.dev/ca
         PK=$(ls *_sk)
@@ -89,7 +96,7 @@ function org2Artefacts(){
         -e "FABRIC_CFG_PATH=/opt/gopath/src/github.com/hyperledger/fabric" \
         -w="/opt/gopath/src/github.com/hyperledger/fabric" \
         --volume=${PWD}:/opt/gopath/src/github.com/hyperledger/fabric \
-        hyperledger/fabric-tools \
+        hyperledger/fabric-tools:${FABRIC_TOOL_IMAGE_TAG} \
         /bin/bash -c '${PWD}/generate-artefacts.sh'
     popd
 
