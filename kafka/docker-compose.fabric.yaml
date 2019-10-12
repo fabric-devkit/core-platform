@@ -43,7 +43,7 @@ services:
     ports:
       - 6050:7050
     networks:
-      - ${NETWORKS}
+      - fabric-network
 
   orderer2.kafka.network:
     container_name: orderer2.kafka.network
@@ -84,7 +84,7 @@ services:
     ports:
       - 6051:7050
     networks:
-      - ${NETWORKS}
+      - fabric-network
 
 # Org1
 
@@ -105,7 +105,7 @@ services:
     ports:
       - 7064:7054
     networks:
-      - ${NETWORKS}
+      - fabric-network
 
   peer0.db.org1.kafka.network:
     container_name: peer0.db.org1.kafka.network
@@ -113,7 +113,7 @@ services:
     ports:
       - 5984:5984
     networks:
-      - ${NETWORKS}
+      - fabric-network
 
   peer0.org1.kafka.network:
     container_name: peer0.org1.kafka.network
@@ -139,7 +139,7 @@ services:
       - FABRIC_LOGGING_SPEC=debug
       - CORE_NEXT=true
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
-      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}_${NETWORKS}
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}_fabric-network
       # World state
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=peer0.db.org1.kafka.network:5984
@@ -153,7 +153,7 @@ services:
       - orderer1.kafka.network
       - peer0.db.org1.kafka.network
     networks:
-      - ${NETWORKS}
+      - fabric-network
 
   cli.org1.kafka.network:
     container_name: cli.org1.kafka.network
@@ -187,7 +187,7 @@ services:
       - ./cli-scripts/org1/:/opt/gopath/src/github.com/hyperledger/fabric/scripts/
       - ${CHAINCODE_PATH}:/opt/gopath/src/github.com/hyperledger/fabric/chaincodes/
     networks:
-      - ${NETWORKS}
+      - fabric-network
 
 #Org2
 
@@ -208,7 +208,7 @@ services:
     ports:
       - 7060:7054
     networks:
-      - ${NETWORKS}
+      - fabric-network
 
   peer0.db.org2.kafka.network:
     container_name: peer0.db.org2.kafka.network
@@ -216,7 +216,7 @@ services:
     ports:
       - 5985:5984
     networks:
-      - ${NETWORKS}
+      - fabric-network
       
   peer0.org2.kafka.network:
     container_name: peer0.org2.kafka.network
@@ -242,7 +242,7 @@ services:
       - FABRIC_LOGGING_SPEC=debug
       - CORE_NEXT=true
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
-      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}_${NETWORKS}
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}_fabric-network
       # World state
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=peer0.db.org2.kafka.network:5984
@@ -256,7 +256,7 @@ services:
       - orderer2.kafka.network
       - peer0.db.org2.kafka.network
     networks:
-      - ${NETWORKS}
+      - fabric-network
 
   cli.org2.kafka.network:
     container_name: cli.org2.kafka.network
@@ -290,7 +290,7 @@ services:
       - ./cli-scripts/org2/:/opt/gopath/src/github.com/hyperledger/fabric/scripts/
       - ${CHAINCODE_PATH}:/opt/gopath/src/github.com/hyperledger/fabric/chaincodes/
     networks:
-      - ${NETWORKS}
+      - fabric-network
 
 networks:
   fabric-network:

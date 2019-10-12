@@ -14,7 +14,7 @@ services:
       - 2888
       - 3888
     networks:
-      - ${NETWORKS}
+      - fabric-network
 
   zookeeper2.network:
     container_name: zookeeper2.network
@@ -27,7 +27,7 @@ services:
       - 2888
       - 3888
     networks:
-      - ${NETWORKS}
+      - fabric-network
 
   zookeeper3.network:
     container_name: zookeeper3.network
@@ -40,7 +40,7 @@ services:
       - 2888
       - 3888
     networks:
-      - ${NETWORKS}
+      - fabric-network
 
   kafka1.network:
     container_name: kafka1.network
@@ -60,7 +60,7 @@ services:
     ports:
       - 9092
     networks:
-      - ${NETWORKS}
+      - fabric-network
 
   kafka2.network:
     container_name: kafka2.network
@@ -79,7 +79,7 @@ services:
     ports:
       - 9092
     networks:
-      - ${NETWORKS}
+      - fabric-network
 
   kafka3.network:
     container_name: kafka3.network
@@ -98,7 +98,7 @@ services:
     ports:
       - 9092
     networks:
-      - ${NETWORKS}
+      - fabric-network
 
   kafka4.network:
     container_name: kafka4.network
@@ -117,7 +117,7 @@ services:
     ports:
       - 9092
     networks:
-      - ${NETWORKS}
+      - fabric-network
 
 networks:
   fabric-network:

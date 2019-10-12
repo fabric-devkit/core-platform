@@ -4,7 +4,16 @@ ARGS_NUMBER="$#"
 COMMAND="$1"
 SUBCOMMAND="$2"
 
-network_name="kafka_fabric-network"
+export CA_IMAGE_TAG=1.4.0
+export PEER_IMAGE_TAG=1.4.0
+export ORDERER_IMAGE_TAG=1.4.0
+export COUCHDB_IMAGE_TAG=0.4.8
+export FABRIC_TOOL_IMAGE_TAG=1.4
+export KAFKA_IMAGE_TAG=0.4.16
+export ZOOKEEPER_IMAGE_TAG=0.4.16
+export CHAINCODE_PATH="../chaincodes/"
+export COMPOSE_PROJECT_NAME=kafka
+network_name="${COMPOSE_PROJECT_NAME}_fabric-network"
 
 # Kafka
 kafka_subcommand_message="Usage: $0 kafka start | clean"
@@ -56,7 +65,7 @@ function kafka(){
 function createCryptoChannelArtefacts(){
     rm -rf ./channel-artefacts
     rm -rf ./crypto-config
-    docker run --rm -e "GOPATH=/opt/gopath" -e "FABRIC_CFG_PATH=/opt/gopath/src/github.com/hyperledger/fabric" -w="/opt/gopath/src/github.com/hyperledger/fabric" --volume=${PWD}:/opt/gopath/src/github.com/hyperledger/fabric hyperledger/fabric-tools:1.4 /bin/bash -c '${PWD}/generate-artefacts.sh'
+    docker run --rm -e "GOPATH=/opt/gopath" -e "FABRIC_CFG_PATH=/opt/gopath/src/github.com/hyperledger/fabric" -w="/opt/gopath/src/github.com/hyperledger/fabric" --volume=${PWD}:/opt/gopath/src/github.com/hyperledger/fabric hyperledger/fabric-tools:${FABRIC_TOOL_IMAGE_TAG} /bin/bash -c '${PWD}/generate-artefacts.sh'
 }
 
 function renameSecretPrivKeys(){
