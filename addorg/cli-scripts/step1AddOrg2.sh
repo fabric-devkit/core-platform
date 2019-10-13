@@ -8,8 +8,10 @@ apt-get -y update && apt-get -y install jq
 
 . ./scripts/common.sh
 
+echo "-- Get configuration blocks from orderer"
 peer channel fetch config config_block.pb -o $ORDERER -c $CHANNEL_NAME --tls --cafile $ORDERER_CA
 
+echo "-- Use configtxlator to add org2 artefacts to channel configuration"
 configtxlator proto_decode --input config_block.pb --type common.Block | jq .data.data[0].payload.data.config > config.json
 
 jq -s '.[0] * {"channel_group":{"groups":{"Application":{"groups":{"Org2MSP":.[1]}}}}}' config.json ./channel-artefacts/org2.json >modified_config.json

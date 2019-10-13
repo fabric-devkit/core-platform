@@ -1,10 +1,10 @@
 ---
-title: Fabric CA
+title: Fabric Certificate Authority (CA)
 has_children: true
 nav_order: 3
 ---
 
-# Fabric Certificate Authority (CA) client 
+## Overview
 
 Please refer to [official documentation (version 1.4)](https://hyperledger-fabric-ca.readthedocs.io/en/release-1.4/) for a detailed explanation of the operations of Fabric CA and its relationship to other aspects of the Fabric artefacts.
 
@@ -19,11 +19,13 @@ This extension contains scripts to enable you to interact with a Fabric CA serve
 > The Fabric CA server in dev network is implemented in sqlite.
 
 <figure>
+
     <img src="./images/fabric-ca-lab-arch.jpg" height="400" width="500"/>
     <figcaption>Figure 1: Fabric CA and ca client interactions</figcaption>
+
 </figure>
 
-# How can I use this extension?
+## How to use this demonstrator
 
 To use it to enroll and register users in the dev network's Fabric CA server please perform the following steps:
 
@@ -31,9 +33,11 @@ To use it to enroll and register users in the dev network's Fabric CA server ple
 2. Run the command `./fabricOps.sh network start`, to create an operational Fabric network.
 3. Run the command `./fabricOps.sh ca-client start`, to create an instance of Fabric CA client.
 4. Run the command `./fabricOps.sh ca-client cli`, this will open up a shell similar this:
-   ```
+
+   ```shell
    root@594ed3d57171:/opt/wd#
    ```
+
 5. You can:
    a. registration a credential name `admin2` by running the command `root@594ed3d57171:/opt/wd# ./scripts/registering-admin2.sh`, or
    b. revoke an identity by running the command `root@594ed3d57171:/opt/wd# ./scripts/revoke-identity.sh` or
@@ -42,7 +46,7 @@ To use it to enroll and register users in the dev network's Fabric CA server ple
 
 If you wish to perform more operations simply create your own script and deposit [here](../extensions/fabric-ca-client/scripts) and execute the script via Fabric CA client cli. 
 
-# Content
+## Content
 
 The lab content can be found [here](../extensions/fabric-ca-client).
 
