@@ -5,7 +5,7 @@ has_children: true
 nav_order: 3
 ---
 
-# Minmum Kafka Network
+## Overview
 
 This is a sub-project of [`Fabric Devkit` core platform](https://github.com/fabric-devkit/core-platform) intended to illustrate a minimum number of components you need to get a working Kafka based Fabric network. You can also use this as a basis for a development network or to build on for experimentation.
 
