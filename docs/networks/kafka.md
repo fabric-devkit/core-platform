@@ -7,63 +7,52 @@ nav_order: 3
 
 ## Overview
 
-This is a sub-project of [`Fabric Devkit` core platform](https://github.com/fabric-devkit/core-platform) intended to illustrate a minimum number of components you need to get a working Kafka based Fabric network. You can also use this as a basis for a development network or to build on for experimentation.
+The purpose of this demonstrator is to help you appreciate the use of Kafka to give your network resiliancy.
 
 Please refer to Fabric's [official documentation on Kafka based Fabric network](https://hyperledger-fabric.readthedocs.io/en/release-1.4/kafka.html)
 
-This core components of a Kafka based Fabric network is illustrated in Figure 1.
+## Scenario
 
-<figure>
-    <img src="./images/kafka.arch.png" height="200" width="700"/>
-    <figcaption>Figure 1: Kafka Fabric network</figcaption>
-</figure>
+This network uses a cluster of two orderers curated by a combination of Kafka and zookeepers. The network also comprises of two organisations. Each organisation owns a peer node, Fabric CA and a cli. The two organisation transact wtith each other via two channels.
 
-## What to expect
-
-The kafka network orchestration is located [here](../networks/kafka)
+## Demonstrator Content
 
 | Item | Description |
 | --- | --- |
-| `.env` | Shared orchestrator environmental variables |
 | `cli-scripts` | This folder contains scripts to configure the dev network by creating channels, installing and instantiating chaincodes |
-| `configtx.yaml` | Channel specification please refer to [crypto-configtx guide for details](./crypto-configtx.md)  |
-| `crypto-config.yaml` | Crytographic artefact specification [crypto-configtx guide for details](./crypto-configtx.md) |
-| `docker-compose.fabric.yaml` | An orchestration file for the Fabric components |
-| `docker-compose.kafka.yaml` | An orchestration file for the kafka components |
-| `fabricOps.sh` | Please refer to details [here](#fabricOps) |
+| `configtx.yaml` | Channel specification  |
+| `crypto-config.yaml` | Crytographic artefact specification |
+| `docker-compose.fabric.yaml` | A Hyperledger Fabric network orchestration specification |
+| `docker-compose.kafka.yaml` | An orchestration specification for the kafka |
+| `fabricOps.sh` | Please refer to details below |
 | `generate-artefacts.sh` | Script to execute configtxgen and cryptogen tool |
 
-## How to run the demonstrator AS-IS?
+### fabricOps.sh
 
-STEP 1: Navigate to the [orchestrator](../kafka).
-
-STEP 2: Start the kafka cluster please refer to [fabric operations](#fabricOps).
-
-STEP 3: Start the [Fabric network](#fabricOps).
-
-## <a name="fabricOps">fabricOps.sh</a>
-
-The principal network orchestration script to help you spin-up, tear down and add supporting components to the network. It is a Bash script based command line application.
-This is how you use the script
+This the principal network orchestration script to help you spin-up, tear down and add supporting components to the network. It is a Bash script based command line application. The script commands and sub-commands are as follows:
 
 `./fabricOps.sh kafka <subcommand> | network <subcommand> | status | clean`
 
-#### `kafka` command
+* `kafka` command to start a preconfigure kafka cluster, with the following sub commands
 
-Use this command for Kafka oriented operations.
+```shell
+./fabricOps.sh kafka start | clean
+```
 
-`./fabricOps.sh kafka start | clean`
+* `network` to manipulate a Hyperledger Fabric network, with the following sub-command
 
-#### `network` command
+```shell
+./fabricOps.sh network start | configure | clean
+```
 
-Use this command for network oriented operations.
+* `status` command to display the status of the network.
 
-`./fabricOps.sh network start | configure | clean`
+* `clean` command to tear down the Hyperledger Fabric network to a clean state.
 
-#### `status` command
+## Running the demonstrator
 
-Use this command to display the status of the network.
+STEP 1: `git clone https://github.com/fabric-devkit/core-platform` and navigate to the folder named `kafka`.
 
-#### `clean` command
+STEP 2: Run the command `fabricOps.sh kafka start` to start Kafka cluster.
 
-Command to tear down *all* containers in the Fabric network.
+STEP 3: Run the command `fabricOps.sh network start` followed by `fabricOps.sh configure` to instantiate a Hyperledger Fabric network.
