@@ -1,8 +1,8 @@
 #!/bin/bash
 
-echo "=========================="
-echo "== STEP 2: Adding Org 2 =="
-echo "=========================="
+echo "================================================="
+echo "== STEP 2: Org 2 joining network from Org2 cli =="
+echo "================================================="
 
 . ./scripts/common.sh
 

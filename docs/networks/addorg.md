@@ -23,12 +23,12 @@ To help you learn the process of adding an org to an existing network, clone [ht
 
 | Item | Description |
 | --- | --- |
-| `cli-scripts` | This folder contains scripts to configure the dev network by creating channels, installing and instantiating chaincodes |
-| `configtx.yaml` | Channel specification please refer to [crypto-configtx guide for details](./crypto-configtx.md)  |
-| `crypto-config.yaml` | Crytographic artefact specification [crypto-configtx guide for details](./crypto-configtx.md) |
-| `docker-compose.fabric.yaml` | An orchestration file for the dev network |
-| `docker-compose.org2.yaml` | Orchestration file for org2 that includes one peer and one cli |
-| `fabricOps.sh` | Please refer to details |
+| `cli-scripts` | This folder contains scripts to configure an initial one org (`Org1`) network and to add another org (`Org2`) |
+| `configtx.yaml` | Channel specification |
+| `crypto-config.yaml` | Crytographic artefact specification  |
+| `docker-compose.fabric.yaml` | A network orchestration specification for initial network |
+| `docker-compose.org2.yaml` | Orchestration specification for org2 that includes one peer and one cli |
+| `fabricOps.sh` | Please refer to details below |
 | `generate-artefacts.sh` | Script to execute configtxgen and cryptogen tool |
 | `org2` | Artefacts associated with `org2` |
 
@@ -36,58 +36,29 @@ To help you learn the process of adding an org to an existing network, clone [ht
 
 The principal network orchestration script to spin-up, tear down and add supporting components to the network. It is a Bash script based command line application.
 
-`./fabricOps.sh network <subcommand> | ca-client <subcommand> | fabric-node-client <subcommand> | add-org2 <subcommand> | status | clean`
+`./fabricOps.sh network | add-org2 <subcommand> | status | clean`
 
-*`network` command*
+* `network` command responsible for creating and starting an initial network;
 
-Command to create Fabric network related:
-
-* crytographic and channel arefects;
-* to spin-up a working Fabric network;
-* intialise (create channels, install chaincode and initialise chaincode first version) the running Fabric network;
-* or upgrade the chaincode in a running Fabric network.
-
-> Note:
-> Please make sure the network operations is executed in the follow sequence:
->
-> 1. For newly instantiated network: `network artefacts`, then `network start`, then `network init`;
-> 2. Upgrading new chaincode: `network upgrade`.
+* `add-org2` command responsible for add org2 into the running `dev` network, please refer to sub-commands.
 
 ```shell
-./fabricOps.sh network artefacts | start | init | upgrade
+./fabricOps.sh add-org2 artefacts | join | validate
 ```
 
 | Subcommand | Description |
 | --- | --- |
-| `artefacts` | Create cryptographic and channel artefacts. |
-| `start` | Instantiate the dev network. |
-| `init` | Create, install and instantiate a chaincode [minimalcc](../chaincodes/minimalcc) on a network with no chaincode. |
-| `upgrade` | Upgrade to a new version of chaincode and automatically append the new version with a new datetime stamp. |
+| `artefacts` | Create `org2` related artefacts via `org1` cli |
+| `join` | Operations to join `org2` via its cli to initial network |
+| `validate` | Operations to instatiate the chaincodes in `org2` |
 
-*`add-org2` command*
-
-Command to add org2 into the running `dev` network
-
-```shell
-./fabricOps.sh add-org2 artefacts | join
-```
-
-| Subcommand | Description |
-| --- | --- |
-| `artefacts` | Create `org2` related artefacts |
-| `join` | Operations to join `org2` to dev network, this include operations to reconfigure existing channel to facilitating the addition or `org2`. |
-
-*`status` command*
-
-Command to get a list of the status instances running in the network.
+* `status` command list of the status instances running in the network.
 
 ```shell
 ./fabricOps.sh status
 ```
 
-*`clean` command*
-
-Command to tear down *all* containers in the Fabric network
+* `clean` command reset network to clean state
 
 ```shell
 ./fabricOps.sh clean
@@ -103,17 +74,9 @@ Command to tear down *all* containers in the Fabric network
 
 ## Steps to add Org2 to network
 
-To run this demonstrator, you will need to:
+Step 1 - Run the command `./fabricOps.sh network` to create initialise and instantiate a network.
 
-* Firstly, create and spin up a network with one organisation;
-* Secondly, add `org2` to the existing one-organisation network;
-
-### Startup the network with one-organisation
-
-1. Run the command `./fabricOps.sh network artefacts` to build the necessary crytographic and channel artefacts.
-2. Run the command `./fabricOps.sh network start` to get the dev network running.
-3. Instantiate a new chaincode, run the command `./fabricOps.sh network init`
-4. To help you debug code, run the command `./fabricOps.sh status` and you will see a list of running containers along this line:
+Step 2 - Run the command `./fabricOps.sh status` and if you see the following status, it means you have a functioning network
 
 ```shell
 CONTAINER ID        IMAGE                                                                                          COMMAND                  CREATED             STATUS              PORTS                                            NAMES
@@ -134,12 +97,8 @@ b0ec24dc8897        hyperledger/fabric-orderer:1.4.0                            
 2019-02-27 14:17:06.069 UTC [minimalcc] Infof -> INFO 003 Name2: John Amount2: 20
 ```
 
-### Add `Org2` to existing network channel containing `Org1`
+Step 3 - Run the command `./fabricOps.sh add-org2 artefacts` to create artefacts for `org2`.
 
-1. Run the command `./fabricOps.sh clean` - this is to ensure that you have a clean network
-2. Run `./fabricOps.sh network artefacts`, followed by `./fabricOps.sh network start` and then `./fabricOps.sh network init`.
-3. Run `./fabricOps.sh add-org2 artefacts` and followed by `./fabricOps.sh add-org2 join`. You will see console displaying a two step operations. If no error proceed to next step.
-4. Run `./fabricOps.sh add-org2 validate`. Ignore the sentence `Error: error sending transaction for invoke: could not send: EOF` and if you see in the console log `proposal response: version:1 response:<status:200 payload:"Payment done" >`, it means org2 has been added. For further confirmation if you run the command `fabricOps.sh status` and if you see a container named `dev-peer0.org-mycc-1.0` it means your org2 has been properly added.
+Step 4 - Run the command `./fabricOps.sh add-org2 join`.
 
-> Note:
-> The error message appears to be caused by a bug in the `peer chaincode invoke` command.
+Step 5 - Run the command `./fabricOps.sh add-org2 validate` to install and instantiate chaincode in `org2`. Ignore the sentence `Error: error sending transaction for invoke: could not send: EOF`. If you see in the console log `proposal response: version:1 response:<status:200 payload:"Payment done" >`, it means org2 has been added. For further confirmation if you run the command `fabricOps.sh status` and if you see a container named `dev-peer0.org-mycc-1.0` it means your org2 has been properly added.

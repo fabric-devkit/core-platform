@@ -62,26 +62,11 @@ function upgradeNetwork(){
 }
 
 function network(){
-    local subcommand="$1"
-    case $subcommand in
-        "artefacts")
-            clearCryptoChannelArtefacts
-            createCryptoChannelArtefacts
-            ;;
-        "start")
-            clearContainers
-            startNetworkContainers
-            ;;
-        "init")
-            initializeNetwork
-            ;;
-        "upgrade")
-            upgradeNetwork
-            ;;
-        *)
-            echo $network_subcommand_message
-            ;;
-    esac
+    clearCryptoChannelArtefacts
+    createCryptoChannelArtefacts
+    clearContainers
+    startNetworkContainers
+    initializeNetwork
 }
 
 # Org2
@@ -162,13 +147,12 @@ function fabricOpsClean(){
     clearContainers
     clearChaincodeImages
     clearCryptoChannelArtefacts
-    fabricClient clean
     docker rmi -f $(docker images -f "dangling=true" -q)
 }
 
 case $COMMAND in
     "network")
-        network $SUBCOMMAND
+        network
         ;;
     "status")
         fabricOpsStatus
