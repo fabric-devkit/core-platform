@@ -14,23 +14,24 @@ Organizations:
     - &OrdererOrg
         # DefaultOrg defines the organization which is used in the sampleconfig
         # of the fabric.git development environment
-        Name: Orderer
+        Name: OrdererMSP
 
         # ID to load the MSP definition as
         ID: OrdererMSP
 
         # MSPDir is the filesystem path which contains the MSP configuration
-        MSPDir: assets/crypto-config/ordererOrganizations/fabric.network/msp
+        MSPDir: crypto-config/ordererOrganizations/fabric.network/msp
+
 
     - &Org1
         # DefaultOrg defines the organization which is used in the sampleconfig
         # of the fabric.git development environment
-        Name: Org1
+        Name: Org1MSP
 
         # ID to load the MSP definition as
         ID: Org1MSP
 
-        MSPDir: assets/crypto-config/peerOrganizations/org1.fabric.network/msp
+        MSPDir: crypto-config/peerOrganizations/org1.fabric.network/msp
 
         AnchorPeers:
             # AnchorPeers defines the location of peers which can be used
@@ -42,12 +43,12 @@ Organizations:
     - &Org2
         # DefaultOrg defines the organization which is used in the sampleconfig
         # of the fabric.git development environment
-        Name: Org2
+        Name: Org2MSP
 
         # ID to load the MSP definition as
         ID: Org2MSP
 
-        MSPDir: assets/crypto-config/peerOrganizations/org2.fabric.network/msp
+        MSPDir: crypto-config/peerOrganizations/org2.fabric.network/msp
 
         AnchorPeers:
             # AnchorPeers defines the location of peers which can be used
@@ -78,7 +79,7 @@ Organizations:
 Capabilities:
     # Channel capabilities apply to both the orderers and the peers and must be
     # supported by both.  Set the value of the capability to true to require it.
-    Global: &ChannelCapabilities
+    Channel: &ChannelCapabilities
         # V1.1 for Global is a catchall flag for behavior which has been
         # determined to be desired for all orderers and peers running v1.0.x,
         # but the modification of which would cause incompatibilities.  Users
@@ -174,7 +175,7 @@ Orderer: &OrdererDefaults
 ################################################################################
 Profiles:
 
-    TwoOrgsOrdererGenesis:
+    OrdererGenesis:
         Capabilities:
             <<: *ChannelCapabilities
         Orderer:
@@ -188,7 +189,7 @@ Profiles:
                 Organizations:
                     - *Org1
                     - *Org2
-    TwoOrgsChannel:
+    MyChannel:
         Consortium: SampleConsortium
         Application:
             <<: *ApplicationDefaults
