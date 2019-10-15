@@ -1,5 +1,6 @@
 #!/bin//bash
 
+CLI_NAME="$0"
 ARGS_NUMBER="$#"
 COMMAND="$1"
 SUBCOMMAND="$2"
@@ -18,6 +19,7 @@ network_name="${COMPOSE_PROJECT_NAME}_fabric-network"
 # Crypto and channel assets
 function createCryptoChannelArtefacts(){
 
+    echo "Download tools to generate crypto and channel assets."
     docker run --rm \
                -e "GOPATH=/opt/gopath" \
                -e "FABRIC_CFG_PATH=/opt/gopath/src/github.com/hyperledger/fabric" \
@@ -44,11 +46,11 @@ function createCryptoChannelArtefacts(){
         PK=$(ls *_sk)
         mv $PK secret.key
     popd
-
 }
 
 # Network ops
 function startNetworkContainers(){
+    echo "Start-up the network"
     docker-compose up -d
 }
 
@@ -69,6 +71,7 @@ function clearCryptoChannelAssets(){
 }
 
 function clean(){
+    echo "Reset the network to a brand new state"
     clearCryptoChannelAssets
     docker rm -f $(docker ps --filter network=$network_name -aq)
 }
@@ -83,8 +86,29 @@ function cli(){
             docker exec -it cli.peer0.org2.fabric.network /bin/bash
             ;;
         *)
-            echo "Usage: fabicOps.sh cli [org1 | org2]"
+            echo "Usage: ${CLI_NAME} ${COMMAND} [org1 | org2]"
             ;;
+    esac
+}
+
+function chaincodeLog() {
+    local org=$1
+    local ccid = $( docker ps -a | awk '/dev-peer0.$org.*/ {print $1}' )
+    docker logs $ccid
+}
+
+function log(){
+    local subcmd=$1
+    case $subcmd in
+        "org1")
+            chaincodeLog $
+            ;;
+        "org2")
+            docker logs cli.peer0.org2.fabric.network
+            ;;
+        *)
+            echo "Usage: ${CLI_NAME} ${COMMAND} [org1 | org2]"
+            ;; 
     esac
 }
 
@@ -100,10 +124,13 @@ case $COMMAND in
     "status")
         networkStatus
         ;;
+    "log")
+        log $SUBCOMMAND
+        ;;
     "clean")
         clean
         ;;
     *)
-        echo "Usage: $0 [ start | cli | status | clean ]"
+        echo "Usage: ${CLI_NAME} [ start | cli | status | clean ]"
         ;;
 esac
