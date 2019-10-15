@@ -93,18 +93,17 @@ function cli(){
 
 function chaincodeLog() {
     local org=$1
-    local ccid = $( docker ps -a | awk '/dev-peer0.$org.*/ {print $1}' )
-    docker logs $ccid
+    local ccid=$( docker ps -a | grep dev-peer0.$org | awk '/dev-*/ {print $1}')
+    if [ -z $ccid ]; then
+        docker logs $ccid
+    fi
 }
 
 function log(){
     local subcmd=$1
     case $subcmd in
-        "org1")
-            chaincodeLog $
-            ;;
-        "org2")
-            docker logs cli.peer0.org2.fabric.network
+        org[1-2])
+            chaincodeLog $subcmd
             ;;
         *)
             echo "Usage: ${CLI_NAME} ${COMMAND} [org1 | org2]"

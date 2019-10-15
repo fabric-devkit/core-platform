@@ -21,3 +21,5 @@ fi
 configtxgen -profile ${ORDERERGENESYS_PROFILE} -outputBlock ./channel-artefacts/${CHANNEL_NAME}-genesis.block
 configtxgen -profile ${CHANNEL_PROFILE} -outputCreateChannelTx ./channel-artefacts/${CHANNEL_NAME}.tx -channelID $CHANNEL_NAME
 configtxgen -profile ${CHANNEL_PROFILE} -outputAnchorPeersUpdate ./channel-artefacts/Org1MSPanchors_${CHANNEL_NAME}.tx -channelID $CHANNEL_NAME -asOrg Org1MSP
+configtxgen -profile ${CHANNEL_PROFILE} -outputAnchorPeersUpdate ./channel-artefacts/Org2MSPanchors_${CHANNEL_NAME}.tx -channelID $CHANNEL_NAME -asOrg Org2MSP
+
