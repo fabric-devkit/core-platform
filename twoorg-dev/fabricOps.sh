@@ -19,7 +19,7 @@ network_name="${COMPOSE_PROJECT_NAME}_fabric-network"
 # Crypto and channel assets
 function createCryptoChannelArtefacts(){
 
-    echo "Download tools to generate crypto and channel assets."
+    # Download crypto and channel artefact tools
     docker run --rm \
                -e "GOPATH=/opt/gopath" \
                -e "FABRIC_CFG_PATH=/opt/gopath/src/github.com/hyperledger/fabric" \
@@ -27,6 +27,8 @@ function createCryptoChannelArtefacts(){
                --volume=${PWD}:/opt/gopath/src/github.com/hyperledger/fabric \
                hyperledger/fabric-tools:${FABRIC_TOOL_IMAGE_TAG} /bin/bash -c '${PWD}/generate-artefacts.sh'
 
+    # Renaming the secret keys purely for administration purpose and is not 
+    # fundamental to the operations of Hyperledger Fabric
     pushd ./crypto-config/peerOrganizations/org1.fabric.network/ca
         PK=$(ls *_sk)
         mv $PK secret.key
@@ -48,34 +50,37 @@ function createCryptoChannelArtefacts(){
     popd
 }
 
-# Network ops
-function startNetworkContainers(){
-    echo "Start-up the network"
-    docker-compose up -d
-}
+# Networking ops
+function network(){
 
-# Global ops
-function networkStatus(){
-    docker ps -a --filter network=$network_name
-}
-
-# Clean
-function clearCryptoChannelAssets(){
-    if [ -d ./channel-artefacts ]; then
-        rm -rf ./channel-artefacts;
+    if [ ! -d ./crypto-config ]; then
+        echo "Missing cryto artefacts"
+        exit
     fi
 
-    if [ -d ./crypto-config ]; then
-        rm -rf ./crypto-config
+    if [ ! -d ./channel-artefacts ]; then
+        echo "Missing channel configuration artefacts"
+        exit 1
     fi
+
+    local subcmd=$1
+    case $subcmd in
+        "start")
+            docker-compose up -d
+            ;;
+        "stop")
+            docker-compose down
+            ;;
+        "status")
+            docker ps -a --filter network=$network_name
+            ;;
+        *)
+            echo "$CLI_NAME $COMMAND [start | stop | status]"
+            ;;
+    esac
 }
 
-function clean(){
-    echo "Reset the network to a brand new state"
-    clearCryptoChannelAssets
-    docker rm -f $(docker ps --filter network=$network_name -aq)
-}
-
+# Access to Fabric command line tool
 function cli(){
     local subcmd=$1
     case $subcmd in
@@ -91,10 +96,11 @@ function cli(){
     esac
 }
 
+# Access to the chaincode log
 function chaincodeLog() {
     local org=$1
     local ccid=$( docker ps -a | grep dev-peer0.$org | awk '/dev-*/ {print $1}')
-    if [ -z $ccid ]; then
+    if [ ! -z $ccid ]; then
         docker logs $ccid
     fi
 }
@@ -111,25 +117,46 @@ function log(){
     esac
 }
 
+# Clean
+function clearCryptoChannelAssets(){
+    if [ -d ./channel-artefacts ]; then
+        rm -rf ./channel-artefacts;
+    fi
+
+    if [ -d ./crypto-config ]; then
+        rm -rf ./crypto-config
+    fi
+}
+
+function cleanCCImages() {
+    local ccImages=$(docker images --filter=reference='dev-*' --format "{{.ID}}")
+    docker rmi -f $ccImages
+}
+
+function clean(){
+    clearCryptoChannelAssets
+    docker rm -f $(docker ps --filter network=$network_name -aq)
+    cleanCCImages
+}
+
 case $COMMAND in
-    "start")
+    "artefacts")
         clearCryptoChannelAssets
         createCryptoChannelArtefacts
-        startNetworkContainers
         ;;
-    "cli")
-        cli $SUBCOMMAND
-        ;;
-    "status")
-        networkStatus
-        ;;
-    "log")
+    "chaincode")
         log $SUBCOMMAND
         ;;
     "clean")
         clean
         ;;
+    "cli")
+        cli $SUBCOMMAND
+        ;;
+    "network")
+        network $SUBCOMMAND
+        ;;
     *)
-        echo "Usage: ${CLI_NAME} [ start | cli | status | clean ]"
+        echo "Usage: ${CLI_NAME} [ artefacts | chaincode | clean | cli | network  ]"
         ;;
 esac
