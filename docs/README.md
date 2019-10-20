@@ -1,6 +1,6 @@
 # Overview
 
-This is a Fabric Devkit [sub-project](https://github.com/fabric-devkit/core-platform) intended to help platform engineers, DevOps engineers or Site Reliability Engineer (SRE) gain knowledge instantiating and orchestrating a Hyperledger Fabric network.
+This is a Fabric Devkit [sub-project](https://github.com/fabric-devkit/core-platform) intended to help platform engineers, DevOps engineers or Site Reliability Engineer (SRE) appreciate the process of instantiating and orchestrating a Hyperledger Fabric network.
 
 ## Prequisite
 
