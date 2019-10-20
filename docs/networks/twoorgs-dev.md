@@ -64,7 +64,7 @@ STEP 9 - Run the command `./fabricOps.sh cli org2` to give you access to `org2` 
 
 STEP 10 - In `org2` cli terminal, run the command `./scripts/joinChan.sh` to join `org2` peer node to `mychannel`.
 
-STEP 11 - In `org2` cli terminal, run the command `./scripts/installChan.sh` in `org2` peer node.
+STEP 11 - In `org2` cli terminal, run the command `./scripts/installCC.sh` in `org2` peer node.
 
 STEP 12 - In `org2` cli terminal, run the command `./scripts/query.sh John` to show initial value of 20 assigned to John.
 
