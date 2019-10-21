@@ -106,7 +106,12 @@ func query(stub shim.ChaincodeStubInterface) pb.Response {
 		return shim.Error(fmt.Sprintf("Failed to execute query find %v and error %v", queryStatement, err))
 	}
 
-	return shim.Success([]byte(fmt.Sprintf("%v has %v", queryStatement, string(queryResult))))
+	if queryResult == nil {
+		return shim.Success([]byte(fmt.Sprintf("There is no account for %v", string(queryStatement))))
+	} else {
+		return shim.Success([]byte(fmt.Sprintf("%v has %v", queryStatement, string(queryResult))))
+	}
+
 
 }
 
