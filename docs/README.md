@@ -30,7 +30,7 @@ The demonstrators are organised to different topics to help gain knowledge of th
 
 ## Disclaimer
 
-The demonstrator codes presented in this projects are **not** intended for mission critical or production use cases. They are intended purely for demonstration purposes only. If you choose to use it for mission critical and production use cases, you do so at your own risks.
+The demonstrator codes presented in these projects are **not** intended for mission critical or production use cases. They are intended purely for demonstration purposes only. If you choose to use it for mission critical and production use cases, you do so at your own risks.
 
 ## Copyright Notice
 
