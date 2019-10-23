@@ -102,3 +102,8 @@ Step 3 - Run the command `./fabricOps.sh add-org2 artefacts` to create artefacts
 Step 4 - Run the command `./fabricOps.sh add-org2 join`.
 
 Step 5 - Run the command `./fabricOps.sh add-org2 validate` to install and instantiate chaincode in `org2`. Ignore the sentence `Error: error sending transaction for invoke: could not send: EOF`. If you see in the console log `proposal response: version:1 response:<status:200 payload:"Payment done" >`, it means org2 has been added. For further confirmation if you run the command `fabricOps.sh status` and if you see a container named `dev-peer0.org-mycc-1.0` it means your org2 has been properly added.
+
+## Copyright Notice
+
+Copyright (c) 2019. The Fabric-DevKit Authors. All rights reserved.
+SPDX-License-Identifier: Apache-2.0

@@ -55,3 +55,8 @@ The lab content can be found [here](../extensions/fabric-ca-client).
 | `scripts` | Contains a series of bash scripts embedded in the Fabric client toolkit to: register a new identity; revoke an identity; query the Fabric CA server. |
 | `Dockerfile` | A docker specification to help user create Fabric ca client toolkit Docker image. |
 | `fabric-ca-client-config.yaml` | A configuration file to help you set the necessary attributed to enable the Fabric CA client to talk to the CA server. |
+
+## Copyright Notice
+
+Copyright (c) 2019. The Fabric-DevKit Authors. All rights reserved.
+SPDX-License-Identifier: Apache-2.0
