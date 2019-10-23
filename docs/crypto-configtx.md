@@ -32,3 +32,8 @@ The extension is located [here](../extensions/crypto-configtx).
 | `crypto-config.yaml` | This is a file to specify cryptographic artefacts. Please refer to [official documentation](https://hyperledger-fabric.readthedocs.io/en/release-1.4/msp.html#how-to-generate-msp-certificates-and-their-signing-keys) for use case. |
 | `generate-artefacts.sh` | This is a supporting script for `test.sh` |
 | `test.sh` | This is the principal script for generating cryptographic and channel artefacts |
+
+## Copyright Notice
+
+Copyright (c) 2019. The Fabric-DevKit Authors. All rights reserved.
+SPDX-License-Identifier: Apache-2.0

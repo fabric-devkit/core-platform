@@ -16,9 +16,9 @@ In this project you will find demonstrators covering aspects of Hyperledger Fabr
 
 The demonstrators are organised to different topics to help gain knowledge of the internals of the abovementioned components and to illustrates different aspects of orchestrating networks. The demonstrators contains working examples.
 
-* `crypto-configtx` section demonstrate the process of creating cryptographic and networking configurations;
-* `fabric-ca` section demonstrates the internal workings of the Fabric CA server interacting via a cli CA client;
-* `networking` sections provide working examples illustrating the process of adding a new peer to an existing network, the creation of private data networks and the use of Kafka.
+* [crypto-configtx](https://fabric-devkit.github.io/core-platform/crypto-configtx.html) section demonstrate the process of creating cryptographic and networking configurations;
+* [fabric-ca](https://fabric-devkit.github.io/core-platform/fabric-ca.html) section demonstrates the internal workings of the Fabric CA server interacting via a cli CA client;
+* [networking](https://fabric-devkit.github.io/core-platform/networks/networks.html) sections provide working examples illustrating the process of adding a new peer to an existing network, the creation of private data networks and the use of Kafka.
 
 **Note:** Hyperledger Fabric is customisable and you can replaced the official out-of-the-box components with customised one. The components discussed in [here](https://github.com/fabric-devkit/core-platform) are components found in the official out-of-the-box Hyperledger Fabric project.
 

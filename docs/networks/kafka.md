@@ -56,3 +56,8 @@ STEP 1: `git clone https://github.com/fabric-devkit/core-platform` and navigate 
 STEP 2: Run the command `fabricOps.sh kafka start` to start Kafka cluster.
 
 STEP 3: Run the command `fabricOps.sh network start` followed by `fabricOps.sh configure` to instantiate a Hyperledger Fabric network.
+
+## Copyright Notice
+
+Copyright (c) 2019. The Fabric-DevKit Authors. All rights reserved.
+SPDX-License-Identifier: Apache-2.0

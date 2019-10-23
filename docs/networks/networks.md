@@ -16,3 +16,8 @@ The examples covers the following topics:
 * Using Kafka to create a crash resistence network;
 * Creating networks with private data;
 * Create and orchestrate a simple two organisations network that you can use to help you debug chaincodes.
+
+## Copyright Notice
+
+Copyright (c) 2019. The Fabric-DevKit Authors. All rights reserved.
+SPDX-License-Identifier: Apache-2.0

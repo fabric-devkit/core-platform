@@ -71,3 +71,8 @@ STEP 12 - In `org2` cli terminal, run the command `./scripts/query.sh John` to s
 When you have completed these steps you will have a fully initialise network.
 
 **NOTE:** You will have noticed that there is a script `invoke.sh` that simulate a hardcoded payment transaction from the persona John to Paul for 1 unit. This does not have an effect on the network -- i.e. reach a consensus between `org1` and `org2` nodes that payment has occurred between the two personas. So neither nodes will have updated their world state. The cli command `peer chaincode invoke` only runs a simulation of the chaincode but it does not commit the result to the world state. You can use this script to help you debug the chaincode without impacting the network state.
+
+## Copyright Notice
+
+Copyright (c) 2019. The Fabric-DevKit Authors. All rights reserved.
+SPDX-License-Identifier: Apache-2.0
