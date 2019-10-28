@@ -11,70 +11,19 @@ The purpose of this demonstrator is to help you understands the process of addin
 
 For a conceptual understanding of the process of adding a peer to an existing network and channel, please refer to this [article](https://medium.com/@kctheservant/add-a-new-organization-on-existing-hyperledger-fabric-network-2c9e303955b2).
 
-## Demonstrator Scenario
+## Scenario
 
-Imagine a scenario where you have instantiated a Hyperledger Fabric network with one orderer (operating in solo mode) a Fabric organisation (named `Org1`) comprising one certificate authority (CA), one peer and one cli adminstrator client peer. You have also create a channel for `Org1` peer to interact via the orderer with another peer in another organisation.
+Imagine a scenario where you are responsible for instantiating a network with one `orderer` and `org1` -- comprising a Certificate Authority (CA), peer node and a cli client peer -- and a channel named `mychannel`. You are also responsible for generating cryptographic and channel artefacts for `org2`, and configuring `mychannel` to accept `org2`.
 
-Next you want to add another organisation named `Org2`, namely the one peer in the organisation, to the existing network channel you have created for `Org1`.
+Switch to another persona, who is also responsible for orchstrating `org2`. The persona is responsible for joining `org2` to `mychannel`.
 
-## Demonstator Content
+**NOTE:** This is one of many possible ways to configure and expanding a Hyperledger Fabric network. The intention here is to demonstrate the underlying process of expanding a network, which is same regardless of how a network is configured.
 
-To help you learn the process of adding an org to an existing network, clone [https://github.com/fabric-devkit/core-platform](https://github.com/fabric-devkit/core-platform) and navigate to the folder named `addorg` and you will find the following items.
-
-| Item | Description |
-| --- | --- |
-| `cli-scripts` | This folder contains scripts to configure an initial one org (`Org1`) network and to add another org (`Org2`) |
-| `configtx.yaml` | Channel specification |
-| `crypto-config.yaml` | Crytographic artefact specification  |
-| `docker-compose.fabric.yaml` | A network orchestration specification for initial network |
-| `docker-compose.org2.yaml` | Orchestration specification for org2 that includes one peer and one cli |
-| `fabricOps.sh` | Please refer to details below |
-| `generate-artefacts.sh` | Script to execute configtxgen and cryptogen tool |
-| `org2` | Artefacts associated with `org2` |
-
-### fabricOps.sh
-
-The principal network orchestration script to spin-up, tear down and add supporting components to the network. It is a Bash script based command line application.
-
-`./fabricOps.sh network | add-org2 <subcommand> | status | clean`
-
-* `network` command responsible for creating and starting an initial network;
-
-* `add-org2` command responsible for add org2 into the running `dev` network, please refer to sub-commands.
-
-```shell
-./fabricOps.sh add-org2 artefacts | join | validate
-```
-
-| Subcommand | Description |
-| --- | --- |
-| `artefacts` | Create `org2` related artefacts via `org1` cli |
-| `join` | Operations to join `org2` via its cli to initial network |
-| `validate` | Operations to instatiate the chaincodes in `org2` |
-
-* `status` command list of the status instances running in the network.
-
-```shell
-./fabricOps.sh status
-```
-
-* `clean` command reset network to clean state
-
-```shell
-./fabricOps.sh clean
-```
-
-### Org2 artefacts
-
-| Item | Description |
-| --- | --- |
-| `configtx.yaml` |  Channel configuration file  |
-| `org2-crypto.yaml` | cryptographic configuration file for org2 |
-| `generate-artefacts.sh`| scripts to create cryptographics and channel artefacts |
+A more realistic scenario is one where individual members are responsible for their own organisations and responsible for generating their own cryptographic artefacts. Each member then submit their respective artefacts to a collectively managed and neutral organisation responsible for configuring the network as a whole.
 
 ## Steps to add Org2 to network
 
-Step 1 - Run the command `./fabricOps.sh network` to create initialise and instantiate a network.
+Step 1 - Run the command `./fabricOps.sh network` to create initialise and instantiate a network with `org1` and one channel named `mychannel`
 
 Step 2 - Run the command `./fabricOps.sh status` and if you see the following status, it means you have a functioning network
 
@@ -99,7 +48,7 @@ b0ec24dc8897        hyperledger/fabric-orderer:1.4.0                            
 
 Step 3 - Run the command `./fabricOps.sh add-org2 artefacts` to create artefacts for `org2`.
 
-Step 4 - Run the command `./fabricOps.sh add-org2 join`.
+Step 4 - Run the command `./fabricOps.sh add-org2 join` to join `org2` to `org1`.
 
 Step 5 - Run the command `./fabricOps.sh add-org2 validate` to install and instantiate chaincode in `org2`. Ignore the sentence `Error: error sending transaction for invoke: could not send: EOF`. If you see in the console log `proposal response: version:1 response:<status:200 payload:"Payment done" >`, it means org2 has been added. For further confirmation if you run the command `fabricOps.sh status` and if you see a container named `dev-peer0.org-mycc-1.0` it means your org2 has been properly added.
 
