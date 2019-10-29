@@ -7,9 +7,9 @@ nav_order: 3
 
 ## Overview
 
-The purpose of this demonstrator is to help you appreciate the use of Kafka to give your network resiliancy.
+The purpose of this demonstrator is to help you appreciate the process of setting up a Kafka based Hyperledger Fabric network.
 
-Please refer to Fabric's [official documentation on Kafka based Fabric network](https://hyperledger-fabric.readthedocs.io/en/release-1.4/kafka.html)
+Please refer to Fabric's [official document on Kafka based Fabric network](https://hyperledger-fabric.readthedocs.io/en/release-1.4/kafka.html)
 
 ## Scenario
 
