@@ -11,6 +11,17 @@ The purpose of this demonstrator is to help you understands the process of addin
 
 For a conceptual understanding of the process of adding a peer to an existing network and channel, please refer to this [article](https://medium.com/@kctheservant/add-a-new-organization-on-existing-hyperledger-fabric-network-2c9e303955b2).
 
+The demonstrator has been verified to work on macOS these versions of Hyperledger Fabric components:
+
+| Component | Version |
+| :-- | :-- |
+| FABRIC CA | 1.4.0 |
+| PEER | 1.4.0 |
+| ORDERER | 1.4.0 |
+| FABRIC TOOL | 1.4 |
+| macOS | Catalina |
+| Docker | version 19.03.4, build 9013bf5 |
+
 ## Scenario
 
 Imagine a scenario where you are responsible for instantiating a network with one `orderer` and `org1` -- comprising a Certificate Authority (CA), peer node and a cli client peer -- and a channel named `mychannel`. You are also responsible for generating cryptographic and channel artefacts for `org2`, and configuring `mychannel` to accept `org2`.
