@@ -11,6 +11,20 @@ The purpose of this demonstrator is to help you appreciate the process of settin
 
 Please refer to Fabric's [official document on Kafka based Fabric network](https://hyperledger-fabric.readthedocs.io/en/release-1.4/kafka.html)
 
+The demonstrator has been verified to work on macOS these versions of Hyperledger Fabric components:
+
+| Component | Version |
+| :-- | :-- |
+| FABRIC CA | 1.4.0 |
+| PEER | 1.4.0 |
+| ORDERER | 1.4.0 |
+| COUCHDB | 0.4.8 |
+| FABRIC_TOOL | 1.4 |
+| KAFKA | 0.4.16 |
+| ZOOKEEPER | 0.4.16 |
+| macOS | Catalina |
+| Docker | version 19.03.4, build 9013bf5 |
+
 ## Scenario
 
 This network uses a cluster of two orderers curated by a combination of Kafka and zookeepers. The network also comprises of two organisations. Each organisation owns a peer node, Fabric CA and a cli. The two organisation transact wtith each other via two channels.

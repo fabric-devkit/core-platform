@@ -9,6 +9,18 @@ nav_order: 4
 
 This section illustrates a process to orchestrate a Hyperledger Fabric network via a simple two-organisations network demonstrator. The demonstrator uses a combination of Hyperledger Fabric command line (CLI) tools to demonstrate a process. Command lines tools provide the ability to the process under the hood.
 
+The demonstrator has been verified to work on macOS these versions of Hyperledger Fabric components:
+
+| Component | Version |
+| :-- | :-- |
+| FABRIC CA | 1.4.0 |
+| PEER | 1.4.0 |
+| ORDERER| 1.4.0 |
+| COUCHDB | 0.4.8 |
+| FABRIC TOOL | 1.4 |
+| macOS | Catalina |
+| Docker | version 19.03.4, build 9013bf5 |
+
 ## Scenario
 
 Imagine a scenario where you are tasked with orchestrating a two-organisation network with one orderer node operating in solo mode. Each organisation is assigned a Hyperledger Fabric Certificate Authority (CA), a peer node (anchor, endorser and committer combined) and a CLI client node (to enable user interact with peer node).
