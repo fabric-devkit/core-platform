@@ -1,0 +1,178 @@
+version: '3'
+
+services:
+
+#Orderer1
+  orderer1.fabric.network:
+    container_name: orderer1.fabric.network
+    image: hyperledger/fabric-orderer:${ORDERER_IMAGE_TAG}
+    tty: true
+    environment:
+      - CONFIGTX_ORDERER_ORDERERTYPE=solo
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_LISTENPORT=7050
+      - ORDERER_GENERAL_GENESISMETHOD=file
+      - ORDERER_GENERAL_QUEUESIZE=1000
+      - ORDERER_GENERAL_MAXWINDOWSIZE=1000
+      - ORDERER_RAMLEDGER_HISTORY_SIZE=100
+      - ORDERER_GENERAL_BATCHSIZE=10
+      - ORDERER_GENERAL_BATCHTIMEOUT=10s
+      - ORDERER_GENERAL_LOGLEVEL=debug
+      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/fabric/crypto-config/channel-artefacts/${CHANNEL_NAME}-genesis.block
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/fabric/crypto-config/msp
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/fabric/crypto-config/tls/server.crt
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/fabric/crypto-config/tls/server.key
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/fabric/crypto-config/tls/ca.crt, /var/hyperledger/fabric/crypto-config/peerOrganizations/org1.fabric.network/tls/ca.crt, /var/hyperledger/fabric/crypto-config/peerOrganizations/org2.fabric.network/tls/ca.crt]
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+    command: orderer
+    volumes:
+      - ./channel-artefacts/:/var/hyperledger/fabric/crypto-config/channel-artefacts/
+      - ./crypto-config/ordererOrganizations/fabric.network/orderers/orderer1.fabric.network/:/var/hyperledger/fabric/crypto-config/
+      - ./crypto-config/peerOrganizations/org1.fabric.network/peers/peer0.org1.fabric.network/tls/ca.crt:/var/hyperledger/fabric/crypto-config/peerOrganizations/org1.fabric.network/tls/ca.crt
+      - ./crypto-config/peerOrganizations/org2.fabric.network/peers/peer0.org2.fabric.network/tls/ca.crt:/var/hyperledger/fabric/crypto-config/peerOrganizations/org2.fabric.network/tls/ca.crt
+    ports:
+      - 7050:7050
+    networks:
+      - fabric-network
+
+#Orderer2
+  orderer2.fabric.network:
+    container_name: orderer2.fabric.network
+    image: hyperledger/fabric-orderer:${ORDERER_IMAGE_TAG}
+    tty: true
+    environment:
+      - CONFIGTX_ORDERER_ORDERERTYPE=solo
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_LISTENPORT=7050
+      - ORDERER_GENERAL_GENESISMETHOD=file
+      - ORDERER_GENERAL_QUEUESIZE=1000
+      - ORDERER_GENERAL_MAXWINDOWSIZE=1000
+      - ORDERER_RAMLEDGER_HISTORY_SIZE=100
+      - ORDERER_GENERAL_BATCHSIZE=10
+      - ORDERER_GENERAL_BATCHTIMEOUT=10s
+      - ORDERER_GENERAL_LOGLEVEL=debug
+      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/fabric/crypto-config/channel-artefacts/${CHANNEL_NAME}-genesis.block
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/fabric/crypto-config/msp
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/fabric/crypto-config/tls/server.crt
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/fabric/crypto-config/tls/server.key
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/fabric/crypto-config/tls/ca.crt, /var/hyperledger/fabric/crypto-config/peerOrganizations/org1.fabric.network/tls/ca.crt, /var/hyperledger/fabric/crypto-config/peerOrganizations/org2.fabric.network/tls/ca.crt]
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+    command: orderer
+    volumes:
+      - ./channel-artefacts/:/var/hyperledger/fabric/crypto-config/channel-artefacts/
+      - ./crypto-config/ordererOrganizations/fabric.network/orderers/orderer2.fabric.network/:/var/hyperledger/fabric/crypto-config/
+      - ./crypto-config/peerOrganizations/org1.fabric.network/peers/peer0.org1.fabric.network/tls/ca.crt:/var/hyperledger/fabric/crypto-config/peerOrganizations/org1.fabric.network/tls/ca.crt
+      - ./crypto-config/peerOrganizations/org2.fabric.network/peers/peer0.org2.fabric.network/tls/ca.crt:/var/hyperledger/fabric/crypto-config/peerOrganizations/org2.fabric.network/tls/ca.crt
+    ports:
+      - 8050:7050
+    networks:
+      - fabric-network
+
+#Orderer3
+  orderer3.fabric.network:
+    container_name: orderer3.fabric.network
+    image: hyperledger/fabric-orderer:${ORDERER_IMAGE_TAG}
+    tty: true
+    environment:
+      - CONFIGTX_ORDERER_ORDERERTYPE=solo
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_LISTENPORT=7050
+      - ORDERER_GENERAL_GENESISMETHOD=file
+      - ORDERER_GENERAL_QUEUESIZE=1000
+      - ORDERER_GENERAL_MAXWINDOWSIZE=1000
+      - ORDERER_RAMLEDGER_HISTORY_SIZE=100
+      - ORDERER_GENERAL_BATCHSIZE=10
+      - ORDERER_GENERAL_BATCHTIMEOUT=10s
+      - ORDERER_GENERAL_LOGLEVEL=debug
+      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/fabric/crypto-config/channel-artefacts/${CHANNEL_NAME}-genesis.block
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/fabric/crypto-config/msp
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/fabric/crypto-config/tls/server.crt
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/fabric/crypto-config/tls/server.key
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/fabric/crypto-config/tls/ca.crt, /var/hyperledger/fabric/crypto-config/peerOrganizations/org1.fabric.network/tls/ca.crt, /var/hyperledger/fabric/crypto-config/peerOrganizations/org2.fabric.network/tls/ca.crt]
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+    command: orderer
+    volumes:
+      - ./channel-artefacts/:/var/hyperledger/fabric/crypto-config/channel-artefacts/
+      - ./crypto-config/ordererOrganizations/fabric.network/orderers/orderer3.fabric.network/:/var/hyperledger/fabric/crypto-config/
+      - ./crypto-config/peerOrganizations/org1.fabric.network/peers/peer0.org1.fabric.network/tls/ca.crt:/var/hyperledger/fabric/crypto-config/peerOrganizations/org1.fabric.network/tls/ca.crt
+      - ./crypto-config/peerOrganizations/org2.fabric.network/peers/peer0.org2.fabric.network/tls/ca.crt:/var/hyperledger/fabric/crypto-config/peerOrganizations/org2.fabric.network/tls/ca.crt
+    ports:
+      - 9050:7050
+    networks:
+      - fabric-network
+
+#Orderer4
+  orderer4.fabric.network:
+    container_name: orderer4.fabric.network
+    image: hyperledger/fabric-orderer:${ORDERER_IMAGE_TAG}
+    tty: true
+    environment:
+      - CONFIGTX_ORDERER_ORDERERTYPE=solo
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_LISTENPORT=7050
+      - ORDERER_GENERAL_GENESISMETHOD=file
+      - ORDERER_GENERAL_QUEUESIZE=1000
+      - ORDERER_GENERAL_MAXWINDOWSIZE=1000
+      - ORDERER_RAMLEDGER_HISTORY_SIZE=100
+      - ORDERER_GENERAL_BATCHSIZE=10
+      - ORDERER_GENERAL_BATCHTIMEOUT=10s
+      - ORDERER_GENERAL_LOGLEVEL=debug
+      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/fabric/crypto-config/channel-artefacts/${CHANNEL_NAME}-genesis.block
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/fabric/crypto-config/msp
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/fabric/crypto-config/tls/server.crt
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/fabric/crypto-config/tls/server.key
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/fabric/crypto-config/tls/ca.crt, /var/hyperledger/fabric/crypto-config/peerOrganizations/org1.fabric.network/tls/ca.crt, /var/hyperledger/fabric/crypto-config/peerOrganizations/org2.fabric.network/tls/ca.crt]
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+    command: orderer
+    volumes:
+      - ./channel-artefacts/:/var/hyperledger/fabric/crypto-config/channel-artefacts/
+      - ./crypto-config/ordererOrganizations/fabric.network/orderers/orderer4.fabric.network/:/var/hyperledger/fabric/crypto-config/
+      - ./crypto-config/peerOrganizations/org1.fabric.network/peers/peer0.org1.fabric.network/tls/ca.crt:/var/hyperledger/fabric/crypto-config/peerOrganizations/org1.fabric.network/tls/ca.crt
+      - ./crypto-config/peerOrganizations/org2.fabric.network/peers/peer0.org2.fabric.network/tls/ca.crt:/var/hyperledger/fabric/crypto-config/peerOrganizations/org2.fabric.network/tls/ca.crt
+    ports:
+      - 10050:7050
+    networks:
+      - fabric-network
+
+#Orderer5
+  orderer5.fabric.network:
+    container_name: orderer5.fabric.network
+    image: hyperledger/fabric-orderer:${ORDERER_IMAGE_TAG}
+    tty: true
+    environment:
+      - CONFIGTX_ORDERER_ORDERERTYPE=solo
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_LISTENPORT=7050
+      - ORDERER_GENERAL_GENESISMETHOD=file
+      - ORDERER_GENERAL_QUEUESIZE=1000
+      - ORDERER_GENERAL_MAXWINDOWSIZE=1000
+      - ORDERER_RAMLEDGER_HISTORY_SIZE=100
+      - ORDERER_GENERAL_BATCHSIZE=10
+      - ORDERER_GENERAL_BATCHTIMEOUT=10s
+      - ORDERER_GENERAL_LOGLEVEL=debug
+      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/fabric/crypto-config/channel-artefacts/${CHANNEL_NAME}-genesis.block
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/fabric/crypto-config/msp
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/fabric/crypto-config/tls/server.crt
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/fabric/crypto-config/tls/server.key
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/fabric/crypto-config/tls/ca.crt, /var/hyperledger/fabric/crypto-config/peerOrganizations/org1.fabric.network/tls/ca.crt, /var/hyperledger/fabric/crypto-config/peerOrganizations/org2.fabric.network/tls/ca.crt]
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+    command: orderer
+    volumes:
+      - ./channel-artefacts/:/var/hyperledger/fabric/crypto-config/channel-artefacts/
+      - ./crypto-config/ordererOrganizations/fabric.network/orderers/orderer5.fabric.network/:/var/hyperledger/fabric/crypto-config/
+      - ./crypto-config/peerOrganizations/org1.fabric.network/peers/peer0.org1.fabric.network/tls/ca.crt:/var/hyperledger/fabric/crypto-config/peerOrganizations/org1.fabric.network/tls/ca.crt
+      - ./crypto-config/peerOrganizations/org2.fabric.network/peers/peer0.org2.fabric.network/tls/ca.crt:/var/hyperledger/fabric/crypto-config/peerOrganizations/org2.fabric.network/tls/ca.crt
+    ports:
+      - 11050:7050
+    networks:
+      - fabric-network
