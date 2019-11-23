@@ -5,17 +5,13 @@ CHANNEL_ONE_PROFILE=ChannelOne
 CHANNEL_TWO_NAME=channeltwo
 CHANNEL_TWO_PROFILE=ChannelTwo
 
-if [ -d ./assets ]; then
-    rm -rf ./assets
+if [ ! -d ./assets/crypto-config ]; then
+    ./generate-certs.sh
 fi
 
-cryptogen generate --config=./crypto-config.yaml --output="./assets/crypto-config"
-
-if [ ! -d ./assets/channel-artifacts ]; then
-    mkdir -p ./assets/channel-artifacts
+if [ ! -f ./assets/channel-artifacts/genesis.block]; then
+    ./generate-genesis.sh
 fi
-
-configtxgen -profile OrdererGenesis -outputBlock ./assets/channel-artifacts/genesis.block
 
 configtxgen -profile ${CHANNEL_ONE_PROFILE} -outputCreateChannelTx ./assets/channel-artifacts/${CHANNEL_ONE_NAME}.tx -channelID $CHANNEL_ONE_NAME
 configtxgen -profile ${CHANNEL_TWO_PROFILE} -outputCreateChannelTx ./assets/channel-artifacts/${CHANNEL_TWO_NAME}.tx -channelID $CHANNEL_TWO_NAME
