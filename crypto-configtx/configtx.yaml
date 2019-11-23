@@ -210,11 +210,15 @@ Application: &ApplicationDefaults
 Orderer: &OrdererDefaults
 
   # Orderer Type: The orderer implementation to start
-  # Available types are "solo" and "kafka"
-  OrdererType: solo
+  # Available types are "solo", "kafka" and "etcdraft"
+  OrdererType: etcdraft
 
   Addresses:
-    - orderer.fabric.network:7050
+    - orderer.fabric1.network:7050
+    - orderer.fabric2.network:7050
+    - orderer.fabric3.network:7050
+    - orderer.fabric4.network:7050
+    - orderer.fabric5.network:7050
 
   # Batch Timeout: The amount of time to wait before creating a batch
   BatchTimeout: 2s
@@ -251,24 +255,24 @@ Orderer: &OrdererDefaults
     Consenters:
       - Host: orderer.fabric.network
         Port: 7050
-        ClientTLSCert: crypto-config/ordererOrganizations/fabric.network/orderers/orderer.fabric.network/tls/server.crt
-        ServerTLSCert: crypto-config/ordererOrganizations/fabric.network/orderers/orderer.fabric.network/tls/server.crt
+        ClientTLSCert: assets/crypto-config/ordererOrganizations/fabric.network/orderers/orderer1.fabric.network/tls/server.crt
+        ServerTLSCert: assets/crypto-config/ordererOrganizations/fabric.network/orderers/orderer1.fabric.network/tls/server.crt
       - Host: orderer2.fabric.networ
         Port: 7050
-        ClientTLSCert: crypto-config/ordererOrganizations/fabric.network/orderers/orderer2.fabric.network/tls/server.crt
-        ServerTLSCert: crypto-config/ordererOrganizations/fabric.network/orderers/orderer2.fabric.network/tls/server.crt
+        ClientTLSCert: assets/crypto-config/ordererOrganizations/fabric.network/orderers/orderer2.fabric.network/tls/server.crt
+        ServerTLSCert: assets/crypto-config/ordererOrganizations/fabric.network/orderers/orderer2.fabric.network/tls/server.crt
       - Host: orderer3.fabric.networ
         Port: 7050
-        ClientTLSCert: crypto-config/ordererOrganizations/fabric.network/orderers/orderer3.fabric.network/tls/server.crt
-        ServerTLSCert: crypto-config/ordererOrganizations/fabric.network/orderers/orderer3.fabric.network/tls/server.crt
+        ClientTLSCert: assets/crypto-config/ordererOrganizations/fabric.network/orderers/orderer3.fabric.network/tls/server.crt
+        ServerTLSCert: assets/crypto-config/ordererOrganizations/fabric.network/orderers/orderer3.fabric.network/tls/server.crt
       - Host: orderer4.fabric.networ
         Port: 7050
-        ClientTLSCert: crypto-config/ordererOrganizations/fabric.network/orderers/orderer4.fabric.network/tls/server.crt
-        ServerTLSCert: crypto-config/ordererOrganizations/fabric.network/orderers/orderer4.fabric.network/tls/server.crt
+        ClientTLSCert: assets/crypto-config/ordererOrganizations/fabric.network/orderers/orderer4.fabric.network/tls/server.crt
+        ServerTLSCert: assets/crypto-config/ordererOrganizations/fabric.network/orderers/orderer4.fabric.network/tls/server.crt
       - Host: orderer5.fabric.networ
         Port: 7050
-        ClientTLSCert: crypto-config/ordererOrganizations/fabric.network/orderers/orderer5.fabric.network/tls/server.crt
-        ServerTLSCert: crypto-config/ordererOrganizations/fabric.network/orderers/orderer5.fabric.network/tls/server.crt
+        ClientTLSCert: assets/crypto-config/ordererOrganizations/fabric.network/orderers/orderer5.fabric.network/tls/server.crt
+        ServerTLSCert: assets/crypto-config/ordererOrganizations/fabric.network/orderers/orderer5.fabric.network/tls/server.crt
 
   # Organizations is the list of orgs which are defined as participants on
   # the orderer side of the network
