@@ -11,7 +11,11 @@ OrdererOrgs:
     # "Specs" - See PeerOrgs below for complete description
     # ---------------------------------------------------------------------------
     Specs:
-      - Hostname: orderer
+      - Hostname: orderer1
+      - Hostname: orderer2
+      - Hostname: orderer3
+      - Hostname: orderer4
+      - Hostname: orderer5
 
 # ---------------------------------------------------------------------------
 # "PeerOrgs" - Definition of organizations managing peer nodes
@@ -22,6 +26,7 @@ PeerOrgs:
   # ---------------------------------------------------------------------------
   - Name: Org1
     Domain: org1.fabric.network
+    EnableNodeOUs: true
     # ---------------------------------------------------------------------------
     # "Specs"
     # ---------------------------------------------------------------------------
@@ -56,7 +61,7 @@ PeerOrgs:
     # name collisions
     # ---------------------------------------------------------------------------
     Template:
-      Count: 1
+      Count: 2
       # Start: 5
       # Hostname: {{.Prefix}}{{.Index}} # default
     # ---------------------------------------------------------------------------
@@ -72,7 +77,8 @@ PeerOrgs:
   # ---------------------------------------------------------------------------
   - Name: Org2
     Domain: org2.fabric.network
+    EnableNodeOUs: true
     Template:
-      Count: 1
+      Count: 2
     Users:
       Count: 1
