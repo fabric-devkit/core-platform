@@ -355,7 +355,7 @@ Profiles:
             - *Org1
             - *Org2
   
-  MyChannel:
+  ChannelOne:
     Consortium: SampleConsortium
     <<: *ChannelDefaults
     Application:
@@ -363,5 +363,15 @@ Profiles:
       Organizations:
         - *Org1
         - *Org2
+      Capabilities:
+        <<: *ApplicationCapabilities
+    
+  ChannelTwo:
+    Consortium: SampleConsortium
+    <<: *ChannelDefaults
+    Application:
+      <<: *ApplicationDefaults
+      Organizations:
+        - *Org2    
       Capabilities:
         <<: *ApplicationCapabilities

@@ -9,7 +9,7 @@ if [ ! -d ./assets/crypto-config ]; then
     ./generate-certs.sh
 fi
 
-if [ ! -f ./assets/channel-artifacts/genesis.block]; then
+if [ ! -f ./assets/channel-artifacts/genesis.block ]; then
     ./generate-genesis.sh
 fi
 
