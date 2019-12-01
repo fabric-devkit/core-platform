@@ -8,19 +8,14 @@ You will need to have a conceptual understanding of Hyperledger Fabric blockchai
 
 ## What can I expect of this project
 
-In this project you will find demonstrators covering aspects of Hyperledger Fabric components you would orchestrate a functioning Hyperledger Fabric network. The basic components you will need to create or orchestrate a Hyperledger Fabric network are:
+In this project you will find demonstrators covering aspects of Hyperledger Fabric components you would orchestrate a functioning Hyperledger Fabric network. In this project, you will see experiments demonstrating ways to:
 
-* Cryptogen and configtxgen -- tools you will use to create crytographic asstes and networking configuration;
-* Fabric Certificate Authority (CA);
-* Fabric peer and client nodes.
-
-The demonstrators are organised to different topics to help gain knowledge of the internals of the abovementioned components and to illustrates different aspects of orchestrating networks. The demonstrators contains working examples.
-
-* [crypto-configtx](https://fabric-devkit.github.io/core-platform/crypto-configtx.html) section demonstrate the process of creating cryptographic and networking configurations;
-* [fabric-ca](https://fabric-devkit.github.io/core-platform/fabric-ca.html) section demonstrates the internal workings of the Fabric CA server interacting via a cli CA client;
-* [networking](https://fabric-devkit.github.io/core-platform/networks/networks.html) sections provide working examples illustrating the process of adding a new peer to an existing network, the creation of private data networks and the use of Kafka.
-
-**Note:** Hyperledger Fabric is customisable and you can replaced the official out-of-the-box components with customised one. The components discussed in [here](https://github.com/fabric-devkit/core-platform) are components found in the official out-of-the-box Hyperledger Fabric project.
+* Generate bootstrapping cryptographic materials and genesis block
+* Create a basic network to support your development work
+* Add an organisation to a channel in an network
+* Create a private data network
+* Create a Kafka based network
+* Create a Raft based network 
 
 ## How to use this project
 
