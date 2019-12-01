@@ -1,7 +1,5 @@
 ---
 title: Add Organisation
-parent: Networks
-has_children: true
 nav_order: 2
 ---
 
