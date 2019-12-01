@@ -1,11 +1,9 @@
 ---
 title: Kafka Network
-parent: Networks
-has_children: true
 nav_order: 3
 ---
 
-## Overview
+# Overview
 
 The purpose of this demonstrator is to help you appreciate the process of setting up a Kafka based Hyperledger Fabric network.
 
